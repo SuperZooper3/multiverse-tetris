@@ -1,0 +1,26 @@
+{
+  "name": "tetris",
+  "version": "0.1.0",
+  "description": "Internal package for Gadget app tetris (Development environment)",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "NODE_ENV=production vite build"
+  },
+  "dependencies": {
+    "@gadget-client/tetris": "link:.gadget/client",
+    "@gadgetinc/react": "^0.18.7",
+    "gadget-server": "link:.gadget/server",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.7",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react-swc": "3.2.0",
+    "typescript": "^5.7.2",
+    "vite": "^5.3.5"
+  }
+}
