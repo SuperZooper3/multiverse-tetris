@@ -1,0 +1,5 @@
+const game1 = new TetrisController("gameContainer1", {
+    boxHeight: 44,
+    boxWidth: 44,
+    gameSpeed: 800
+});
