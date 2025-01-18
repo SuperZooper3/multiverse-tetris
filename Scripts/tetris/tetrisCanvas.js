@@ -5,7 +5,6 @@ const lineHeight = 1;
 
 
 class StandardTetrisCanvas{
-
     constructor(lineHeight, width = 20, height = 22){
         this.cvs = document.getElementById("tetris");
         this.ctx = this.cvs.getContext("2d");
@@ -24,7 +23,7 @@ class StandardTetrisCanvas{
 
         //clearing the canvas
         this.ctx.fillStyle = bgColor;
-        this.ctx.fillRect(0,0,28 * boxSize,29 * boxSize);
+        this.ctx.fillRect(0,0,this.widthPixels, this.heightPixels);
 
         //drawing the grid
         this.ctx.fillStyle = "grey";
@@ -39,7 +38,7 @@ class StandardTetrisCanvas{
         //drawing the border
         this.ctx.lineWidth = 3;
         this.ctx.strokeStyle="rgba(0,0,0,1)";
-        this.ctx.strokeRect(this.offsetLeft + 0.75 ,this.offsetTop + 1.5 , 10 * boxSize + 11.5 ,20 * boxSize + 20);
+        this.ctx.strokeRect(this.offsetLeft, this.offsetTop, 10 * boxSize + 11 * this.lineHeight, 20 * boxSize + 21 * this.lineHeight);
 
         //drawing boxes
         this.drawBoxes(rowsBelow,game[0],game[1]);
@@ -159,7 +158,7 @@ class TetrisCanvas extends StandardTetrisCanvas{
 
 class TetrisMiniCanvas extends StandardTetrisCanvas{
     constructor(){
-        super(0.5, 12, 22)
+        super(1, 12, 22)
     }
     draw(rowsBelow, game, tilesCleared){
         super.draw(rowsBelow, game, 'lightgrey');
