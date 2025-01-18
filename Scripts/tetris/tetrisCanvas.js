@@ -51,9 +51,6 @@ class TetrisCanvas{
     }
 
     drawBox(x, y, color, size, lineSize){
-        // x is this.offsetLeft + (column) * (width + line) + line
-        // y is this.offsetTop + (row) * (height + line )+ line
-
         // draw the box itself
         this.ctx.fillStyle = color;
         this.ctx.fillRect(x, y, size, size)
@@ -104,8 +101,8 @@ class TetrisCanvas{
         this.ctx.fillStyle = "black";
         this.ctx.font = boxSize * 1.25 + "px VT323";
         this.ctx.textAlign = "center";
-        this.ctx.fillText("Hold",this.offsetLeft - boxSize * 3.5 ,boxSize * 9);
-        this.ctx.fillText("Next",this.offsetLeft + boxSize * 13.5 + 12 * this.lineHeight,boxSize * 9);
+        this.ctx.fillText("Next",this.offsetLeft + boxSize * 13.5,boxSize * 9);
+        this.ctx.fillText("Hold",this.offsetLeft + boxSize * 13.5,boxSize * 15);
     }
 
     // draw all the boxes
@@ -138,7 +135,7 @@ class TetrisCanvas{
     drawUIBlock(object, x, y) {
         this.ctx.lineWidth = 3;
         this.ctx.strokeStyle="rgba(0,0,0,1)";
-        this.ctx.strokeRect(this.offsetLeft + boxSize * 11 + 12 * this.lineHeight, this.offsetTop + 1.5,boxSize * 5 ,boxSize * 4);
+        this.ctx.strokeRect(x, y,boxSize * 5 ,boxSize * 4);
         let blockType = object[0].blockType
         let r; 
         let c;
@@ -161,8 +158,8 @@ class TetrisCanvas{
                 let column = box.column - 2;
                 let row = box.row;
                 this.drawBox(
-                    this.offsetLeft + boxSize * (13.5 + column - c) + 12 * this.lineHeight, 
-                    boxSize * (4.5 - r + row), 
+                    x + boxSize * (2.5 + column - c),
+                    y + boxSize * (1 - r + row), 
                     box.color,
                     boxSize, 
                     this.lineHeight
@@ -171,75 +168,10 @@ class TetrisCanvas{
     }
 
     drawNext(nextObject){
-        this.drawUIBlock(nextObject, this.offsetLeft + boxSize * 13.5, this.offsetTop)
-        // this.ctx.lineWidth = 3;
-        // this.ctx.strokeStyle="rgba(0,0,0,1)";
-        // this.ctx.strokeRect(this.offsetLeft + boxSize * 11 + 12 * this.lineHeight, this.offsetTop + 1.5,boxSize * 5 ,boxSize * 4);
-        // let blockType = nextObject[0].blockType
-        // let r; 
-        // let c;
-        // if(blockType == 1){
-        //     r = -1/2;
-        //     c = 3;
-        // }else if(blockType == 2){
-        //     r = 0
-        //     c = 3;
-        // }else if(blockType == 5){
-        //     r = 0
-        //     c = 3.5 
-        // }else{
-        //     r = 0
-        //     c = 2.5
-        // }
-       
-        // for(let i = 0; i < nextObject.length; i++){
-        //         let box = nextObject[i]
-        //         let column = box.column - 2;
-        //         let row = box.row;
-        //         this.drawBox(
-        //             this.offsetLeft + boxSize * (13.5 + column - c) + 12 * this.lineHeight, 
-        //             boxSize * (4.5 - r + row), 
-        //             box.color,
-        //             boxSize, 
-        //             this.lineHeight
-        //         )
-        // }
+        this.drawUIBlock(nextObject, this.offsetLeft + boxSize * 11, this.offsetTop)
     }
 
     drawHold(holdObject){
-        this.ctx.lineWidth = 3;
-        this.ctx.strokeStyle="rgba(0,0,0,1)";
-        this.ctx.strokeRect(this.offsetLeft - boxSize * 6, this.offsetTop + 1.5 ,boxSize * 5, boxSize * 4);
-        if(holdObject != undefined){
-            let blockType = holdObject[0].blockType
-            let r; 
-            let c;
-            if(blockType == 1){
-                r = -1/2;
-                c = 3;
-            }else if(blockType == 2){
-                r = 0
-                c = 3;
-            }else if(blockType == 5){
-                r = 0
-                c = 3.5 
-            }else{
-                r = 0
-                c = 2.5
-            }
-            for(let i = 0; i < holdObject.length; i++){
-                let box = holdObject[i]
-                let column = box.column - 2;
-                let row = box.row;
-                this.ctx.fillStyle = box.color;
-                this.ctx.fillRect(boxSize * (3.5 + column - c),    boxSize * (4.5 - r + row),     boxSize,boxSize)
-
-                this.ctx.fillStyle = "black"
-                this.ctx.fillRect(boxSize * (3.5 + column - c),     boxSize * (4.5  - r + row),     boxSize + 2.5 ,2.5)
-                this.ctx.fillRect(boxSize * (3.5 + column - c),     boxSize * (4.5  - r + row),     2.5,boxSize + 2.5)
-                this.ctx.fillRect(boxSize * (3.5 + column - c),     boxSize * (4.5  - r + row + 1), boxSize + 2.5,2.5)
-                this.ctx.fillRect(boxSize * (3.5 + column + 1 - c), boxSize * (4.5  - r + row),     2.5,boxSize + 2.5)
-            }
-       }
+        this.drawUIBlock(holdObject, this.offsetLeft + boxSize * 11, this.offsetTop + boxSize * 6)
     }
 }

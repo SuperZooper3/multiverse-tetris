@@ -20,19 +20,18 @@
                     <button class = "tetrisButton" id="tetrisStart">Start Game</button>
                     <button class = "tetrisButton" id="tetrisAIStart">Start AI</button>
                     <canvas id="tetris"> </canvas>
-                    
-                    
-                    <script  src = "Scripts/tetris/aiTetris.js"></script>
-                    <script  src = "Scripts/tetris/tetrisBox.js"></script>
-                    <script  src = "Scripts/tetris/tetrisObject.js"></script>
-                    <script  src = "Scripts/tetris/tetrisGameBoard.js"></script>
-                    <script  src = "Scripts/tetris/tetrisCanvas.js"></script>
-                    <script  src = "Scripts/tetris/tetrisMiniCanvas.js"></script>
-                    <script  src = "Scripts/tetris/tetris.js"></script>
-                    <script  src = "Scripts/tetris/tetrisControler.js"></script>
                 </div>  
             <!-- </div> -->
         </main>
+    
+    <script  src = "Scripts/tetris/aiTetris.js"></script>
+    <script  src = "Scripts/tetris/tetrisBox.js"></script>
+    <script  src = "Scripts/tetris/tetrisObject.js"></script>
+    <script  src = "Scripts/tetris/tetrisGameBoard.js"></script>
+    <script  src = "Scripts/tetris/tetrisCanvas.js"></script>
+    <script  src = "Scripts/tetris/tetrisMiniCanvas.js"></script>
+    <script  src = "Scripts/tetris/tetris.js"></script>
+    <script  src = "Scripts/tetris/tetrisControler.js"></script>
 
     <script>
         const tetrisCanvas = document.getElementById("tetris");
@@ -42,7 +41,6 @@
             tetrisCanvas.style.height = (avalibleHeight * .90) +"px"
             tetrisCanvas.style.maxHeight = (avalibleHeight * .90) +"px"
             resizeButtons()
-            
         }
         window.addEventListener("load", resizeGame);
         window.addEventListener("resize", resizeGame);
