@@ -1,8 +1,3 @@
- //astetics for the game
- 
- const boxHeight = boxWidth;
- const lineHeight = 1;
-
 function resizeButtons(){
     let width = $("#tetris").width()/20
     let height = $("#tetris").height()/10
@@ -17,9 +12,8 @@ function resizeButtons(){
 window.addEventListener("load", resizeButtons);
 window.addEventListener("resize", resizeButtons);
 
- $(window).bind("load", function () {
-     
-    var tetrisCanvas = new TetrisCanvas(lineHeight,boxHeight,boxWidth);
+$(window).bind("load", function () {
+    var tetrisCanvas = new TetrisCanvas(lineHeight);
     var tetris = new Tetris();
     var tilesCleared = 0;
     tetrisCanvas.draw(tetris.predictLanding(),tetris.getGame(),tilesCleared);
