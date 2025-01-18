@@ -24,7 +24,7 @@
     }
 
     setup() {
-        this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
+        this.tetrisCanvas = new TetrisCanvas(this.boardID, this.lineHeight);
         this.tetris = new Tetris();
         this.tetrisCanvas.draw(this);
 
