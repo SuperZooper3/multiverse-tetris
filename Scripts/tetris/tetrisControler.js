@@ -1,5 +1,5 @@
  class TetrisController {
-    constructor(id) {
+    constructor(id, canvas) {
         this.boardID = id;
         this.lineHeight = 1;
         this.gameRunning = false;
@@ -9,6 +9,7 @@
         this.tetrisCanvas = null;
         this.tetris = null;
         this.setup();
+        this.startAI();
     }
 
     resizeButtons() {
@@ -31,6 +32,15 @@
         $(`#tetrisAIStart-${this.boardID}`).click(() => this.startAI());
 
         document.addEventListener("keydown", (event) => this.keyPress(event));
+    }
+
+    setBig() {
+        this.tetrisCanvas.remove();
+        this.tetrisCanvas = new TetrisCanvas(this.boardID, this.lineHeight);
+    }
+    setMini() {
+        this.tetrisCanvas.remove();
+        this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
     }
 
     keyPress(event) {

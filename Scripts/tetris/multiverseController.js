@@ -2,6 +2,7 @@ class MultiverseController {
     constructor(numberOfBoards) {
         this.numberOfBoards = numberOfBoards;
         this.boards = [];
+    
         
         for (let i = 0; i < this.numberOfBoards; i++) {
             this.boards.push(this.createBoard());
@@ -22,8 +23,12 @@ class MultiverseController {
 
         $(".gameHolder").append(tetrisContainer);
         console.log("Created board with id: " + id);
+        if (id === 0) {
+            return new TetrisController(id);
+        }
         return new TetrisController(id);
     }
+
 }
 
-new MultiverseController(10);
+new MultiverseController(3);
