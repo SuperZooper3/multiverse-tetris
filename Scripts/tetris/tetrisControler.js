@@ -1,16 +1,14 @@
-function resizeButtons(){
-    let width = $("#tetris").width()/20
-    let height = $("#tetris").height()/10
-    $("#tetrisStart").css("left",  $("#tetrisContainer").width()/24);
-    $("#tetrisAIStart").css("right", $("#tetrisContainer").width()/15);
-    $("#tetrisStart").css("font-size",   Math.round(width) + "px");
-    $("#tetrisAIStart").css("font-size", Math.round(width)+ "px");
-    $("#tetrisStart").css("bottom",   height + "px");
-    $("#tetrisAIStart").css("bottom", height+ "px");
-}
+const tetrisCanvas = document.getElementById("tetris");
 
-window.addEventListener("load", resizeButtons);
-window.addEventListener("resize", resizeButtons);
+function resizeGame(){
+    let avalibleWidth = window.innerWidth
+    let avalibleHeight = Math.min(window.innerHeight, avalibleWidth * 1.04) ;
+    tetrisCanvas.style.height = (avalibleHeight * .90) +"px"
+    tetrisCanvas.style.maxHeight = (avalibleHeight * .90) +"px"
+    resizeButtons()
+}
+window.addEventListener("load", resizeGame);
+window.addEventListener("resize", resizeGame);
 
 $(window).bind("load", function () {
     var tetrisCanvas = new TetrisCanvas(lineHeight);

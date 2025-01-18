@@ -8,8 +8,8 @@ class TetrisCanvas{
     constructor(lineHeight){
         this.cvs = document.getElementById("tetris");
         this.ctx = this.cvs.getContext("2d");
-        this.offsetLeft = 7 * boxSize - lineHeight * 6;
-        this.offsetTop = 3.66 * boxSize;
+        this.offsetLeft = boxSize - lineHeight * 6;
+        this.offsetTop = boxSize;
         this.lineHeight = lineHeight;
 
         this.heightPixels = 25 * boxSize;
@@ -44,7 +44,6 @@ class TetrisCanvas{
         this.drawBoxes(rowsBelow,game[0],game[1]);
         this.drawHold(game[2]);
         this.drawNext(game[3]);
-        this.drawTitle();
         this.drawLabels();
         this.drawScore(tilesCleared)
         return true;
@@ -63,46 +62,19 @@ class TetrisCanvas{
         this.ctx.fillRect(x + size, y, lineSize, size)
     }
 
-    drawTitle(){
-        let factor = 2;
-        let width = boxSize / factor;
-        let height = boxSize / factor;
-        let line = this.lineHeight / factor;
-        
-        let t = [[0,0],[0,1],[0,2],[1,1],[2,1],[3,1],[4,1]];
-        let e = [[0,0],[0,1],[0,2],[1,0],[2,0],[2,1],[3,0],[4,0],[4,1],[4,2]];
-        let r = [[0,0],[0,1],[0,2],[1,0],[1,3],[2,0],[2,1],[2,2],[2,3],[3,0],[3,2],[4,0],[4,3]];
-        let i = [[0,1],[1,1],[2,1],[3,1],[4,1]];
-        let s = [[0,0],[0,1],[0,2],[1,0],[2,1],[3,2],[4,0],[4,1],[4,2]];
-        let colors = ["rgb(255,0,0)","rgb(252,159,0)","rgb(233,248,0)","rgb(0,255,25)","rgb(0,247,245)","rgb(186,0,242)"];
-        let tetrisName = [t,e,t,r,i,s];
-        for(let j = 0; j < tetrisName.length; j++){
-            let letter = tetrisName[j];
-            for(let i = 0; i < letter.length; i++){
-                let column = letter[i][1] + (j * 4) - 1  ;
-                if(j == tetrisName.length - 1){
-                    column -= 1;
-                }
-                let row = letter[i][0] - 6;
-                this.drawBox(this.offsetLeft + (column) * (width + line) + line, this.offsetTop + (row) * (height + line )+ line,colors[j],height, line)
-            }
-        }  
-    }
-
     drawScore(score){
         this.ctx.fillStyle = "black";
         this.ctx.font = boxSize * 1.25 + "px VT323";;
-        this.ctx.textAlign = "right";
         const zeroPad = (num, places) => String(num).padStart(places, '0')
-        this.ctx.fillText(zeroPad(score, 7), this.offsetLeft + 16 * boxSize + 12 * this.lineHeight  , this.offsetTop - .5 * boxSize);
+        this.ctx.fillText(zeroPad(score, 7), this.offsetLeft + 13.5 * boxSize, this.offsetTop + 15 * boxSize);
     }
 
     drawLabels(){
         this.ctx.fillStyle = "black";
         this.ctx.font = boxSize * 1.25 + "px VT323";
         this.ctx.textAlign = "center";
-        this.ctx.fillText("Next",this.offsetLeft + boxSize * 13.5,boxSize * 9);
-        this.ctx.fillText("Hold",this.offsetLeft + boxSize * 13.5,boxSize * 15);
+        this.ctx.fillText("Next", this.offsetLeft + boxSize * 13.5, this.offsetTop + boxSize * 5.5);
+        this.ctx.fillText("Hold", this.offsetLeft + boxSize * 13.5, this.offsetTop + boxSize * 11.5);
     }
 
     // draw all the boxes

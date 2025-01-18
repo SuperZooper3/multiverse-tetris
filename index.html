@@ -15,10 +15,12 @@
     </div>
     <main class= "gameHolder"  >     
             <!-- <section class="sectionContainer"> -->
-                <div id = "tetrisContainer"class="game">
+                <div id = "tetrisContainer" class="game">
                     <br>
-                    <button class = "tetrisButton" id="tetrisStart">Start Game</button>
-                    <button class = "tetrisButton" id="tetrisAIStart">Start AI</button>
+                    <div id="buttonBox">
+                        <button class = "tetrisButton" id="tetrisStart">Start Game</button>
+                        <button class = "tetrisButton" id="tetrisAIStart">Start AI</button>    
+                    </div>
                     <canvas id="tetris"> </canvas>
                 </div>  
             <!-- </div> -->
@@ -31,21 +33,8 @@
     <script  src = "Scripts/tetris/tetrisCanvas.js"></script>
     <script  src = "Scripts/tetris/tetrisMiniCanvas.js"></script>
     <script  src = "Scripts/tetris/tetris.js"></script>
-    <script  src = "Scripts/tetris/tetrisControler.js"></script>
-
-    <script>
-        const tetrisCanvas = document.getElementById("tetris");
-        function resizeGame(){
-            let avalibleWidth = window.innerWidth
-            let avalibleHeight = Math.min(window.innerHeight, avalibleWidth * 1.04) ;
-            tetrisCanvas.style.height = (avalibleHeight * .90) +"px"
-            tetrisCanvas.style.maxHeight = (avalibleHeight * .90) +"px"
-            resizeButtons()
-        }
-        window.addEventListener("load", resizeGame);
-        window.addEventListener("resize", resizeGame);
-    </script>
-    
+    <script  src = "Scripts/tetris/tetrisControler.js"></script>   
+ 
     <footer></footer>
 </body>
 </html>
