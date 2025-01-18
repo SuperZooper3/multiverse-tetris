@@ -5,8 +5,8 @@ const lineHeight = 1;
 
 
 class StandardTetrisCanvas{
-    constructor(lineHeight, width = 20, height = 22){
-        this.cvs = document.getElementById("tetris");
+    constructor(boardID, lineHeight, width = 20, height = 22){
+        this.cvs = document.getElementById(`tetris-${boardID}`);
         this.ctx = this.cvs.getContext("2d");
         this.offsetLeft = boxSize - lineHeight * 6;
         this.offsetTop = boxSize;
@@ -15,6 +15,18 @@ class StandardTetrisCanvas{
         this.heightPixels = height * boxSize;
         this.widthPixels = width * boxSize;
         this.boxSize = 2.5;
+
+        function resizeGame(){
+            let avalibleWidth = window.innerWidth
+            let avalibleHeight = Math.min(window.innerHeight, avalibleWidth * 1.04) ;
+            document.getElementById(`tetris-${boardID}`).style.height = (avalibleHeight * .90) +"px"
+            document.getElementById(`tetris-${boardID}`).style.maxHeight = (avalibleHeight * .90) +"px"
+        }
+
+        resizeGame();
+
+        window.addEventListener("load", resizeGame);
+        window.addEventListener("resize", resizeGame);
     }
 
     draw(rowsBelow, game, bgColor = "white"){
