@@ -196,4 +196,20 @@
             }
         }, 10 * (loop + moves.length));
     }
+    getState() {
+        // Determines the state of the board
+        if (!this.tetris) {
+            return "unknown"; // The game hasn't been initialized properly
+        }
+
+        if (!this.gameRunning) {
+            return "normal"; // Game is not running
+        }
+
+        if (this.aiRunning) {
+            return "disturbed"; // AI is running, indicating a potential disturbance
+        }
+
+        return "normal"; // Default state
+    }
 }

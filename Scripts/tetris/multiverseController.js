@@ -30,7 +30,22 @@ class MultiverseController {
         }
         return new TetrisController(id);
     }
+    activeDisturbance(boardIndex) {
+        this.disturbance = false;
+        this.boards.forEach((board, index) => {
+            let state = board.getState();
+    
+            if (state === "disturbed") {
+                this.disturbance = true;
+                console.log(`Board ${index} is disturbed.`);;
+            } else {
+                console.log(`Board ${index} is normal.`);
+            }
+        }); 
+        return this.disturbance;
+    }
+    this.board
 
 }
-
-new MultiverseController(3);
+const controller = new MultiverseController(3);
+controller.activeDisturbance();
