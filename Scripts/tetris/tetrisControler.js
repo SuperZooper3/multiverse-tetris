@@ -5,14 +5,13 @@ function resizeGame(){
     let avalibleHeight = Math.min(window.innerHeight, avalibleWidth * 1.04) ;
     tetrisCanvas.style.height = (avalibleHeight * .90) +"px"
     tetrisCanvas.style.maxHeight = (avalibleHeight * .90) +"px"
-    resizeButtons()
 }
+
 window.addEventListener("load", resizeGame);
 window.addEventListener("resize", resizeGame);
 
- class tetriscontroler {
+ class TetrisController {
     constructor() {
-        this.boxHeight = boxWidth;
         this.lineHeight = 1;
         this.gameRunning = false;
         this.aiRunning = false;
@@ -20,13 +19,7 @@ window.addEventListener("resize", resizeGame);
         this.tilesCleared = 0;
         this.tetrisCanvas = null;
         this.tetris = null;
-
-        this.init();
-    }
-
-    init() {
-        window.addEventListener("load", () => this.setup());
-        window.addEventListener("resize", () => this.resizeButtons());
+        this.setup();
     }
 
     resizeButtons() {
@@ -41,7 +34,7 @@ window.addEventListener("resize", resizeGame);
     }
 
     setup() {
-        this.tetrisCanvas = new TetrisCanvas(this.lineHeight, this.boxHeight, boxWidth);
+        this.tetrisCanvas = new TetrisCanvas(this.lineHeight);
         this.tetris = new Tetris();
         this.tetrisCanvas.draw(this.tetris.predictLanding(), this.tetris.getGame(), this.tilesCleared);
 
@@ -205,4 +198,4 @@ window.addEventListener("resize", resizeGame);
 }
 
 // Instantiate the game
-const tetrisGame = new tetriscontroler();
+const tetrisGame = new TetrisController();

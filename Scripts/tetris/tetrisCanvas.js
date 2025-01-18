@@ -79,6 +79,15 @@ class TetrisCanvas{
 
     // draw all the boxes
     drawBoxes(rowsBelow,gameBoard,currentObject){
+        // draw the ghost piece on the bottom
+        let rowAdded = rowsBelow
+        for(let i = 0; i < currentObject.length; i++){
+            let box = currentObject[i]
+            let row = box.row + rowAdded
+            let column = box.column;
+            this.drawBox(this.offsetLeft + (column) * (boxSize + this.lineHeight) + this.lineHeight, this.offsetTop + (row) * (boxSize + this.lineHeight) + this.lineHeight, "rgb(229, 229, 229)", boxSize, this.lineHeight + 2)
+        } 
+        
         for(let i = 199; i >= 0; i--){
             if(gameBoard[i].box != undefined){
                 let box = gameBoard[i].box
@@ -92,15 +101,6 @@ class TetrisCanvas{
                 )
             }
         }
-
-        // draw the ghost piece on the bottom
-        let rowAdded = rowsBelow
-        for(let i = 0; i < currentObject.length; i++){
-            let box = currentObject[i]
-            let row = box.row + rowAdded
-            let column = box.column;
-            this.drawBox(this.offsetLeft + (column) * (boxSize + this.lineHeight) + this.lineHeight, this.offsetTop + (row) * (boxSize + this.lineHeight) + this.lineHeight, "rgb(229, 229, 229)", boxSize, this.lineHeight + 2)
-        } 
     }
 
     // used to draw the next object and the hold object
