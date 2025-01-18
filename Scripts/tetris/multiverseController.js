@@ -26,4 +26,4 @@ class MultiverseController {
     }
 }
 
-new MultiverseController(2);
+new MultiverseController(10);

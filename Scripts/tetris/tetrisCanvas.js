@@ -134,7 +134,6 @@ class StandardTetrisCanvas{
 }
 
 class TetrisCanvas extends StandardTetrisCanvas{
-
     draw(rowsBelow, game, tilesCleared){
         super.draw(rowsBelow, game, "white");
         this.drawHold(game[2]);
@@ -169,9 +168,10 @@ class TetrisCanvas extends StandardTetrisCanvas{
 }
 
 class TetrisMiniCanvas extends StandardTetrisCanvas{
-    constructor(){
-        super(1, 12, 22)
+    constructor(boardID, lineHeight=1, width = 12, height = 22){
+        super(boardID, lineHeight, width, height);
     }
+    
     draw(rowsBelow, game, tilesCleared){
         super.draw(rowsBelow, game, 'lightgrey');
     }
