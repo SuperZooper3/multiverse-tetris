@@ -1,17 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" id = "html"></html>
-    <head>
-        <script src = "Scripts/jquery-3.4.1.js"></script>
-        <link rel="stylesheet" href="CSS/website.css">
-        <link rel="stylesheet" href="CSS/tetris.css">
-        <title>Tetris</title>
-    </head>
-<body style="top:0;margin:0;min-width: unset;" hidden>
-    <header></header>
-    <div id = "content" >
-        <div id = "top">
-            <h1 style="top:0;margin: 3px;" class="header">Tetris</h1>
-        </div>
+<html lang="en" id="html">
+  <head>
+    <script src="Scripts/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="CSS/website.css" />
+    <link rel="stylesheet" href="CSS/tetris.css" />
+    <title>Tetris</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="gameHolder">
+        <p class="thing">onigiri</p>
+        <p class="thing">onigiri</p>
+        <p class="thing">onigiri</p>
+        <p class="thing">onigiri</p>
+        <p class="thing">onigiri</p>
+        <p class="thing">onigiri</p>
+      </div>
+      <div class="thing" id="me">
+        <canvas id="tetris"></canvas>
+      </div>
     </div>
     <main class= "gameHolder"></main>
     
@@ -23,7 +30,5 @@
     <script  src = "Scripts/tetris/tetris.js"></script>
     <script  src = "Scripts/tetris/tetrisControler.js"></script>
     <script  src = "Scripts/tetris/multiverseController.js"></script>
- 
-    <footer></footer>
-</body>
+ </body>
 </html>
