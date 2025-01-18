@@ -1,3 +1,11 @@
+#tetrisContainer{
+	position: relative;
+	/* margin: auto; */
+	height: auto;
+	width: fit-content;
+	text-align: center;
+}
+
 #buttonBox {
 	position: absolute;
 	left: 75%;
@@ -14,11 +22,12 @@
 	margin: 3px;
 }
 
-.tetrisButton:hover {
+.tetrisButton:hover{
 	text-decoration: underline !important;
 	cursor: pointer;
 }
 
-#tetris {
+#tetris{
 	border: solid 2px black;
+	position: relative;
 }
