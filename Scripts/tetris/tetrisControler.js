@@ -24,22 +24,22 @@
     }
 
     setup() {
-        this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
+        this.tetrisCanvas = new TetrisCanvas(this.boardID, this.lineHeight);
         this.tetris = new Tetris();
         this.tetrisCanvas.draw(this);
 
-        $(`#tetrisStart-${this.boardID}`).click(() => this.startGame());
+        $(`#tetrisStart-${this.boardID}`).click(() =>  this.startGame());
         $(`#tetrisAIStart-${this.boardID}`).click(() => this.startAI());
 
         document.addEventListener("keydown", (event) => this.keyPress(event));
     }
 
     setBig() {
-        this.tetrisCanvas.remove();
+        
         this.tetrisCanvas = new TetrisCanvas(this.boardID, this.lineHeight);
     }
     setMini() {
-        this.tetrisCanvas.remove();
+        
         this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
     }
 
@@ -94,6 +94,7 @@
 
     startGame() {
         if (!this.gameRunning) {
+            this.setBig();
             this.tilesCleared = 0;
             setTimeout(() => {
                 //this.tetris.reset();
@@ -114,6 +115,7 @@
 
     startAI() {
         if (!this.aiRunning) {
+            this.setMini();
             this.gameRunning = true;
             this.startGame();
             //this.tetris.reset();
