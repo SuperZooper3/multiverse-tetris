@@ -1,17 +1,6 @@
-const tetrisCanvas = document.getElementById("tetris");
-
-function resizeGame(){
-    let avalibleWidth = window.innerWidth
-    let avalibleHeight = Math.min(window.innerHeight, avalibleWidth * 1.04) ;
-    tetrisCanvas.style.height = (avalibleHeight * .90) +"px"
-    tetrisCanvas.style.maxHeight = (avalibleHeight * .90) +"px"
-}
-
-window.addEventListener("load", resizeGame);
-window.addEventListener("resize", resizeGame);
-
  class TetrisController {
-    constructor() {
+    constructor(id) {
+        this.boardID = id;
         this.lineHeight = 1;
         this.gameRunning = false;
         this.aiRunning = false;
@@ -23,23 +12,23 @@ window.addEventListener("resize", resizeGame);
     }
 
     resizeButtons() {
-        let width = $("#tetris").width() / 20;
-        let height = $("#tetris").height() / 10;
-        $("#tetrisStart").css("left", $("#tetrisContainer").width() / 24);
-        $("#tetrisAIStart").css("right", $("#tetrisContainer").width() / 15);
-        $("#tetrisStart").css("font-size", Math.round(width) + "px");
-        $("#tetrisAIStart").css("font-size", Math.round(width) + "px");
-        $("#tetrisStart").css("bottom", height + "px");
-        $("#tetrisAIStart").css("bottom", height + "px");
+        let width = $(`#tetris-${this.boardID}`).width() / 20;
+        let height = $(`#tetris-${this.boardID}`).height() / 10;
+        $(`#tetrisStart-${this.boardID}`).css("left", $(`#tetrisContainer-${this.boardID}`).width() / 24);
+        $(`#tetrisAIStart-${this.boardID}`).css("right", $(`#tetrisContainer-${this.boardID}`).width() / 15);
+        $(`#tetrisStart-${this.boardID}`).css("font-size", Math.round(width) + "px");
+        $(`#tetrisAIStart-${this.boardID}`).css("font-size", Math.round(width) + "px");
+        $(`#tetrisStart-${this.boardID}`).css("bottom", height + "px");
+        $(`#tetrisAIStart-${this.boardID}`).css("bottom", height + "px");
     }
 
     setup() {
-        this.tetrisCanvas = new TetrisMiniCanvas(this.lineHeight);
+        this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
         this.tetris = new Tetris();
         this.tetrisCanvas.draw(this.tetris.predictLanding(), this.tetris.getGame(), this.tilesCleared);
 
-        $("#tetrisStart").click(() => this.startGame());
-        $("#tetrisAIStart").click(() => this.startAI());
+        $(`#tetrisStart-${this.boardID}`).click(() => this.startGame());
+        $(`#tetrisAIStart-${this.boardID}`).click(() => this.startAI());
 
         document.addEventListener("keydown", (event) => this.keyPress(event));
     }
@@ -49,7 +38,7 @@ window.addEventListener("resize", resizeGame);
         if ([40, 39, 38, 37, 13, 32].includes(keyPressed)) {
             event.preventDefault();
         }
-        if (this.gameRunning || this.aiRunning) {
+        if (this.gameRunning && !this.aiRunning) {
             this.moveTile(keyPressed);
         }
     }
@@ -97,7 +86,7 @@ window.addEventListener("resize", resizeGame);
         if (!this.gameRunning) {
             this.tilesCleared = 0;
             setTimeout(() => {
-                this.tetris.reset();
+                //this.tetris.reset();
                 this.moveTile();
             }, 500);
 
@@ -117,10 +106,10 @@ window.addEventListener("resize", resizeGame);
         if (!this.aiRunning) {
             this.gameRunning = true;
             this.startGame();
-            this.tetris.reset();
+            //this.tetris.reset();
             this.moveTile();
             this.aiRunning = true;
-            this.tilesCleared = 0;
+            //this.tilesCleared = 0;
             this.ai(this.tetris.getGame());
         }
     }
@@ -196,6 +185,3 @@ window.addEventListener("resize", resizeGame);
         }, 10 * (loop + moves.length));
     }
 }
-
-// Instantiate the game
-const tetrisGame = new TetrisController();
