@@ -30,6 +30,7 @@ class StandardTetrisCanvas {
         window.addEventListener("resize", resizeGame);
     }
 
+
     // pink indicates an error
     drawBoard(rowsBelow, game, bgColor = "pink", aiRunning = false){
         this.ctx.canvas.height  = this.heightPixels;

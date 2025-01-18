@@ -1,11 +1,13 @@
  class TetrisController {
-    constructor(id, canvas) {
+    constructor(id, multiverseController) {
+        this.multiverseController = multiverseController;
         this.boardID = id;
         this.lineHeight = 1;
         this.gameRunning = false;
         this.aiRunning = false;
         this.gameInterval = null;
         this.tilesCleared = 0;
+        this.isActive = null;
         this.tetrisCanvas = null;
         this.tetris = null;
         this.setup();
@@ -33,13 +35,10 @@
 
         document.addEventListener("keydown", (event) => this.keyPress(event));
     }
-
     setBig() {
-        
         this.tetrisCanvas = new TetrisCanvas(this.boardID, this.lineHeight);
     }
     setMini() {
-        
         this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
     }
 
@@ -94,6 +93,8 @@
 
     startGame() {
         if (!this.gameRunning) {
+            this.multiverseController.removeActive();
+            this.multiverseController.activeBoard = this.boardID;
             this.setBig();
             this.tilesCleared = 0;
             setTimeout(() => {
