@@ -16,10 +16,11 @@
 	align-items: center;
 }
 
-.tetrisButton{
-	font-family: "VT323";
-	z-index: 1;
-	margin: 3px;
+.tetrisButton {
+	font-family: monospace;
+	font-size: 12px;
+	padding: 8px 12px;
+	margin: 4px 0;
 }
 
 .tetrisButton:hover{
@@ -27,7 +28,7 @@
 	cursor: pointer;
 }
 
-#tetris{
+#tetris {
 	border: solid 2px black;
 	position: relative;
 }

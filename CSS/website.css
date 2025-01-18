@@ -9,24 +9,21 @@ body {
 
 .wrapper {
 	border: 10px solid rgb(0, 255, 221);
-	height: 100vh;
-	width: 90vw; /* change for side spacing */
+	width: 90vw;
+	/* change for side spacing */
 	display: flex;
 }
 
 .gameHolder {
 	background-color: blue;
-	padding: 0;
 	flex: 2;
-	height: 100%;
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(2, 1fr);
+	grid-template-columns: repeat(4, 1fr);
 }
 
 .thing {
-	margin: 0;
 	border: 2px solid red;
+	padding: 0 12px;
 }
 
 #me {
