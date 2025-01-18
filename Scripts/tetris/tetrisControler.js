@@ -34,7 +34,7 @@ window.addEventListener("resize", resizeGame);
     }
 
     setup() {
-        this.tetrisCanvas = new TetrisCanvas(this.lineHeight);
+        this.tetrisCanvas = new TetrisMiniCanvas(this.lineHeight);
         this.tetris = new Tetris();
         this.tetrisCanvas.draw(this.tetris.predictLanding(), this.tetris.getGame(), this.tilesCleared);
 

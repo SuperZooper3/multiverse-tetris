@@ -3,26 +3,27 @@ const pixleRatio = window.devicePixelRatio || 1
 const boxSize = 40 * pixleRatio
 const lineHeight = 1;
 
-class TetrisCanvas{
 
-    constructor(lineHeight){
+class StandardTetrisCanvas{
+
+    constructor(lineHeight, width = 20, height = 22){
         this.cvs = document.getElementById("tetris");
         this.ctx = this.cvs.getContext("2d");
         this.offsetLeft = boxSize - lineHeight * 6;
         this.offsetTop = boxSize;
         this.lineHeight = lineHeight;
 
-        this.heightPixels = 25 * boxSize;
-        this.widthPixels = 24 * boxSize;
+        this.heightPixels = height * boxSize;
+        this.widthPixels = width * boxSize;
         this.boxSize = 2.5;
     }
 
-    draw(rowsBelow, game, tilesCleared){
+    draw(rowsBelow, game, bgColor = "white"){
         this.ctx.canvas.height  = this.heightPixels;
         this.ctx.canvas.width  = this.widthPixels;
 
         //clearing the canvas
-        this.ctx.fillStyle = "white";
+        this.ctx.fillStyle = bgColor;
         this.ctx.fillRect(0,0,28 * boxSize,29 * boxSize);
 
         //drawing the grid
@@ -42,10 +43,6 @@ class TetrisCanvas{
 
         //drawing boxes
         this.drawBoxes(rowsBelow,game[0],game[1]);
-        this.drawHold(game[2]);
-        this.drawNext(game[3]);
-        this.drawLabels();
-        this.drawScore(tilesCleared)
         return true;
     }
 
@@ -62,21 +59,6 @@ class TetrisCanvas{
         this.ctx.fillRect(x + size, y, lineSize, size)
     }
 
-    drawScore(score){
-        this.ctx.fillStyle = "black";
-        this.ctx.font = boxSize * 1.25 + "px VT323";;
-        const zeroPad = (num, places) => String(num).padStart(places, '0')
-        this.ctx.fillText(zeroPad(score, 7), this.offsetLeft + 13.5 * boxSize, this.offsetTop + 15 * boxSize);
-    }
-
-    drawLabels(){
-        this.ctx.fillStyle = "black";
-        this.ctx.font = boxSize * 1.25 + "px VT323";
-        this.ctx.textAlign = "center";
-        this.ctx.fillText("Next", this.offsetLeft + boxSize * 13.5, this.offsetTop + boxSize * 5.5);
-        this.ctx.fillText("Hold", this.offsetLeft + boxSize * 13.5, this.offsetTop + boxSize * 11.5);
-    }
-
     // draw all the boxes
     drawBoxes(rowsBelow,gameBoard,currentObject){
         // draw the ghost piece on the bottom
@@ -87,7 +69,7 @@ class TetrisCanvas{
             let column = box.column;
             this.drawBox(this.offsetLeft + (column) * (boxSize + this.lineHeight) + this.lineHeight, this.offsetTop + (row) * (boxSize + this.lineHeight) + this.lineHeight, "rgb(229, 229, 229)", boxSize, this.lineHeight + 2)
         } 
-        
+
         for(let i = 199; i >= 0; i--){
             if(gameBoard[i].box != undefined){
                 let box = gameBoard[i].box
@@ -138,6 +120,33 @@ class TetrisCanvas{
                 )
         }
     }
+}
+
+class TetrisCanvas extends StandardTetrisCanvas{
+
+    draw(rowsBelow, game, tilesCleared){
+        super.draw(rowsBelow, game, "white");
+        this.drawHold(game[2]);
+        this.drawNext(game[3]);
+        this.drawLabels();
+        this.drawScore(tilesCleared)
+        return true;
+    }
+
+    drawScore(score){
+        this.ctx.fillStyle = "black";
+        this.ctx.font = boxSize * 1.25 + "px VT323";;
+        const zeroPad = (num, places) => String(num).padStart(places, '0')
+        this.ctx.fillText(zeroPad(score, 7), this.offsetLeft + 13.5 * boxSize, this.offsetTop + 15 * boxSize);
+    }
+
+    drawLabels(){
+        this.ctx.fillStyle = "black";
+        this.ctx.font = boxSize * 1.25 + "px VT323";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText("Next", this.offsetLeft + boxSize * 13.5, this.offsetTop + boxSize * 5.5);
+        this.ctx.fillText("Hold", this.offsetLeft + boxSize * 13.5, this.offsetTop + boxSize * 11.5);
+    }
 
     drawNext(nextObject){
         this.drawUIBlock(nextObject, this.offsetLeft + boxSize * 11, this.offsetTop)
@@ -145,5 +154,14 @@ class TetrisCanvas{
 
     drawHold(holdObject){
         this.drawUIBlock(holdObject, this.offsetLeft + boxSize * 11, this.offsetTop + boxSize * 6)
+    }
+}
+
+class TetrisMiniCanvas extends StandardTetrisCanvas{
+    constructor(){
+        super(0.5, 12, 22)
+    }
+    draw(rowsBelow, game, tilesCleared){
+        super.draw(rowsBelow, game, 'lightgrey');
     }
 }
