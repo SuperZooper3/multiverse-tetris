@@ -7,7 +7,7 @@ body {
 }
 
 .wrapper {
-	background-color: orange;
+	border: 10px solid rgb(0, 255, 221);
 	height: 100vh;
 	width: 90vw; /* change for side spacing */
 	display: flex;
