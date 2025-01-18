@@ -1,0 +1,29 @@
+#tetrisContainer{
+	position: relative;
+	/* margin: auto; */
+	height: auto;
+	width: fit-content;
+	text-align: center;
+}
+
+.tetrisButton{
+	position: absolute;
+	/* width: auto; */
+	color: black;
+	/* font-size: 50px; */
+	font-family: "VT323";
+	background-color: transparent;
+	border: none;
+	z-index: 1;
+}
+
+.tetrisButton:hover{
+	text-decoration: underline !important;
+	cursor: pointer;
+}
+
+#tetris{
+	border: solid 2px black;
+	position: relative;
+	
+}
