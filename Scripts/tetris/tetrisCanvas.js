@@ -140,12 +140,21 @@ class StandardTetrisCanvas {
 }
 
 class TetrisCanvas extends StandardTetrisCanvas{
-    draw(rowsBelow, game, tilesCleared, aiRunning){
-        super.drawBoard(rowsBelow, game, "white", aiRunning);
+    draw(tetrisController){
+        let tetris = tetrisController.tetris;
+        let game = tetris.getGame();
+        
+        super.drawBoard(
+            tetrisController.tetris.predictLanding(), 
+            tetrisController.tetris.getGame(), 
+            tetrisController.gameRunning ? (tetrisController.aiRunning ? "orange": "white") : "grey", 
+            tetrisController.aiRunning
+        );
+
         this.drawHold(game[2]);
         this.drawNext(game[3]);
         this.drawLabels();
-        this.drawScore(tilesCleared)
+        this.drawScore(tetrisController.tilesCleared);
         return true;
     }
 
