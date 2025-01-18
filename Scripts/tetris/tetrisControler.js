@@ -1,3 +1,15 @@
+const tetrisCanvas = document.getElementById("tetris");
+
+function resizeGame(){
+    let avalibleWidth = window.innerWidth
+    let avalibleHeight = Math.min(window.innerHeight, avalibleWidth * 1.04) ;
+    tetrisCanvas.style.height = (avalibleHeight * .90) +"px"
+    tetrisCanvas.style.maxHeight = (avalibleHeight * .90) +"px"
+    resizeButtons()
+}
+window.addEventListener("load", resizeGame);
+window.addEventListener("resize", resizeGame);
+
  class tetriscontroler {
     constructor() {
         this.boxHeight = boxWidth;

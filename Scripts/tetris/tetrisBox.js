@@ -1,7 +1,5 @@
 class Box{
-    constructor(boxWidth,boxHeight){
-        this.width = boxWidth;
-        this.height= boxHeight;
+    constructor(){
         this.row= 0;
         this.column= undefined;
         this.blockType= null;
