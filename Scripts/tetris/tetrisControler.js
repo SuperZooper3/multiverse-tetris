@@ -97,7 +97,7 @@ window.addEventListener("resize", resizeGame);
         if (!this.gameRunning) {
             this.tilesCleared = 0;
             setTimeout(() => {
-                this.tetris.reset();
+                //this.tetris.reset();
                 this.moveTile();
             }, 500);
 
@@ -117,10 +117,10 @@ window.addEventListener("resize", resizeGame);
         if (!this.aiRunning) {
             this.gameRunning = true;
             this.startGame();
-            this.tetris.reset();
+            //this.tetris.reset();
             this.moveTile();
             this.aiRunning = true;
-            this.tilesCleared = 0;
+            //this.tilesCleared = 0;
             this.ai(this.tetris.getGame());
         }
     }
