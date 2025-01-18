@@ -4,8 +4,9 @@ const boxSize = 40 * pixleRatio
 const lineHeight = 1;
 
 
-class StandardTetrisCanvas{
-    constructor(boardID, lineHeight, width = 20, height = 22){
+class StandardTetrisCanvas {
+    constructor(boardID, lineHeight, width = 20, height = 22, windowWidth = window.innerWidth, windowHeight = window.innerHeight){
+        this.boardID = boardID;
         this.cvs = document.getElementById(`tetris-${boardID}`);
         this.ctx = this.cvs.getContext("2d");
         this.offsetLeft = boxSize - lineHeight * 6;
@@ -17,8 +18,8 @@ class StandardTetrisCanvas{
         this.boxSize = 2.5;
 
         function resizeGame(){
-            let avalibleWidth = window.innerWidth
-            let avalibleHeight = Math.min(window.innerHeight, avalibleWidth * 1.04) ;
+            let avalibleWidth = windowWidth
+            let avalibleHeight = Math.min(windowHeight, avalibleWidth) ;
             document.getElementById(`tetris-${boardID}`).style.height = (avalibleHeight * .90) +"px"
             document.getElementById(`tetris-${boardID}`).style.maxHeight = (avalibleHeight * .90) +"px"
         }
@@ -29,13 +30,15 @@ class StandardTetrisCanvas{
         window.addEventListener("resize", resizeGame);
     }
 
-    draw(rowsBelow, game, bgColor = "white"){
+    // pink indicates an error
+    drawBoard(rowsBelow, game, bgColor = "pink", aiRunning = false){
         this.ctx.canvas.height  = this.heightPixels;
         this.ctx.canvas.width  = this.widthPixels;
 
         //clearing the canvas
         this.ctx.fillStyle = bgColor;
         this.ctx.fillRect(0,0,this.widthPixels, this.heightPixels);
+        console.log(bgColor)
 
         //drawing the grid
         this.ctx.fillStyle = "grey";
@@ -54,6 +57,9 @@ class StandardTetrisCanvas{
 
         //drawing boxes
         this.drawBoxes(rowsBelow,game[0],game[1]);
+
+        //update the buttons to represent if the current game is in AI mode or not
+        $(`#tetrisAIStart-${this.boardID}`).text(aiRunning? "AI Mode" : "Manual Mode");
         return true;
     }
 
@@ -134,8 +140,8 @@ class StandardTetrisCanvas{
 }
 
 class TetrisCanvas extends StandardTetrisCanvas{
-    draw(rowsBelow, game, tilesCleared){
-        super.draw(rowsBelow, game, "white");
+    draw(rowsBelow, game, tilesCleared, aiRunning){
+        super.drawBoard(rowsBelow, game, "white", aiRunning);
         this.drawHold(game[2]);
         this.drawNext(game[3]);
         this.drawLabels();
@@ -169,10 +175,12 @@ class TetrisCanvas extends StandardTetrisCanvas{
 
 class TetrisMiniCanvas extends StandardTetrisCanvas{
     constructor(boardID, lineHeight=1, width = 12, height = 22){
-        super(boardID, lineHeight, width, height);
+        super(boardID, lineHeight, width, height, 400, 400);
     }
-    
-    draw(rowsBelow, game, tilesCleared){
-        super.draw(rowsBelow, game, 'lightgrey');
+
+    draw(tetrisController){
+        // tetris.predictLanding(), this.tetris.getGame(), this.tilesCleared, this.aiRunning
+        let tetris = tetrisController.tetris;
+        super.drawBoard(tetris.predictLanding(), tetris.getGame(), tetrisController.gameRunning ? (tetrisController.aiRunning ? "orange": "white") : "grey", tetrisController.aiRunning);
     }
 }
