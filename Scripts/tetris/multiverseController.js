@@ -6,6 +6,8 @@ class MultiverseController {
         for (let i = 0; i < this.numberOfBoards; i++) {
             this.boards.push(this.createBoard());
         }
+
+        this.activeBoard = 0;
     }
 
     createBoard() {
@@ -13,8 +15,8 @@ class MultiverseController {
         let tetrisContainer = $(`
             <div id="tetrisContainer-${id}" class="game">
                 <div id="buttonBox-${id}">
-                    <button class="tetrisButton" id="tetrisStart-${id}">Start Game</button>
-                    <button class="tetrisButton" id="tetrisAIStart-${id}">Start AI</button>    
+                    <button class="tetrisButton" id="tetrisStart-${id}">Set Active</button>
+                    <button class="tetrisButton" id="tetrisAIStart-${id}">Manual Mode</button>    
                 </div>
                 <canvas id="tetris-${id}"></canvas>
             </div>

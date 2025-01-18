@@ -25,7 +25,7 @@
     setup() {
         this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
         this.tetris = new Tetris();
-        this.tetrisCanvas.draw(this.tetris.predictLanding(), this.tetris.getGame(), this.tilesCleared);
+        this.tetrisCanvas.draw(this);
 
         $(`#tetrisStart-${this.boardID}`).click(() => this.startGame());
         $(`#tetrisAIStart-${this.boardID}`).click(() => this.startAI());
@@ -79,7 +79,7 @@
                 this.ai(this.tetris.getGame());
                 break;
         }
-        this.tetrisCanvas.draw(this.tetris.predictLanding(), this.tetris.getGame(), this.tilesCleared);
+        this.tetrisCanvas.draw(this);
     }
 
     startGame() {

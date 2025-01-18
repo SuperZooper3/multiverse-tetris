@@ -8,11 +8,10 @@
 	align-items: center;
 }
 
-.tetrisButton {
-	color: black;
-	background-color: transparent;
+.tetrisButton{
+	font-family: "VT323";
 	z-index: 1;
-	margin: 10px;
+	margin: 3px;
 }
 
 .tetrisButton:hover {
