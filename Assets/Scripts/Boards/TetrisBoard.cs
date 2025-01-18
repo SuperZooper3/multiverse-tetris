@@ -1,47 +1,74 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static TetrisPiece;
+using UnityEngine.UI;
 
 public class TetrisBoard : MonoBehaviour
 {
     public int width = 10;
     public int height = 20;
-    public GameObject fixedCellPrefab;
-    public GameObject activeCellPrefab;
-    private bool[,] grid;
+    public GameObject cellPrefab; // Single prefab for grid cells
+    public Transform gridParent; // Parent for the cells (TetrisGrid)
+    private GameObject[,] cells;
     private TetrisPiece activePiece;
+    private bool[,] grid;
 
     void Start()
     {
         grid = new bool[width, height];
+        cells = new GameObject[width, height];
+
+        // Initialize grid cells in the UI
+        InitializeGrid();
+
+        // Set an active piece for testing
         SetActivePiece(TetrisDefaults.GetDefaultPieces(new Vector2Int(width / 2, height - 5))[0]);
 
-        // For testing, set the entire border to be taken
-        for (int x = 0; x < width; x++)
-        {
-            SetCell(x, 0, true);
-            SetCell(x, height - 1, true);
-        }
-        DrawBoard();
+        // Trigger the block loop every second
+        InvokeRepeating(nameof(Step), 1f, 1f);
     }
 
-    void DrawBoard()
+    void InitializeGrid()
     {
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                if (grid[x, y])
-                {
-                    Instantiate(fixedCellPrefab, new Vector3(x, y, 0), Quaternion.identity);
-                }
+                GameObject cell = Instantiate(cellPrefab, gridParent);
+                cells[x, y] = cell;
+            }
+        }
+    }
+
+    void Step()
+    {
+        // Example: Move the active piece down
+        if (activePiece != null)
+        {
+            Debug.Log("Step");
+
+            // Redraw the board
+            DrawBoard();
+        }
+    }
+
+    void DrawBoard()
+    {
+        // Clear grid visuals
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Color color = grid[x, y] ? Color.gray : Color.black; // Fixed cells are gray
+                cells[x, y].GetComponent<Image>().color = color;
             }
         }
 
+        // Draw active piece
         foreach (Vector2Int block in activePiece.GetOccupiedCells())
         {
-            if (block.x >= 0 && block.x < width && block.y >= 0 && block.y < height) {
-                Instantiate(activeCellPrefab, new Vector3(block.x, block.y, 0), Quaternion.identity);
+            if (block.x >= 0 && block.x < width && block.y >= 0 && block.y < height)
+            {
+                cells[block.x, block.y].GetComponent<Image>().color = Color.red; // Active piece is red
             }
         }
     }
@@ -52,15 +79,6 @@ public class TetrisBoard : MonoBehaviour
         {
             grid[x, y] = taken;
         }
-    }
-
-    public bool GetCell(int x, int y)
-    {
-        if (x >= 0 && x < width && y >= 0 && y < height)
-        {
-            return grid[x, y];
-        }
-        return false;
     }
 
     public void SetActivePiece(TetrisPiece piece)
