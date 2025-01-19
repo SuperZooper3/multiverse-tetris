@@ -1,3 +1,5 @@
+let firstDisturbanceDone = false;
+
 class MultiverseController {
   constructor(numberOfBoards) {
     this.numberOfBoards = numberOfBoards;
@@ -73,11 +75,14 @@ class MultiverseController {
     return false;
   }
 
-  forceDisturbance() {
-    for (let i = 0; i < this.numberOfBoards; i++) {
-      this.boards[i].disturbanceConfusion();
+    forceDisturbance() {
+        for (let i = 0; i < this.numberOfBoards; i++) {
+            if (i !== this.activeBoard) {
+                this.boards[i].disturbanceConfusion();
+                break;
+            }
+        }
     }
-  }
 }
 
 const multiverseController = new MultiverseController(1);

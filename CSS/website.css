@@ -14,7 +14,7 @@ body {
 }
 
 header {
-    width: 60%;
+    width: 90%;
     padding: 20px 0;
     text-align: center;
     color: whitesmoke;
@@ -22,11 +22,11 @@ header {
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 40px;
 }
 
 #story-box {
-    font-size: 20px;
+    font-size: 30px;
 }
 
 /* Game layout */

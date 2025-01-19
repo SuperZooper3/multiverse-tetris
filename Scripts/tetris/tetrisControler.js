@@ -1,6 +1,6 @@
-const REQUIRED_LINES_TO_CLEAR = 2;
+const REQUIRED_LINES_TO_CLEAR = 4;
 const DISTURBANCE_MIN_TIME = 50;
-const DISTURBANCE_MAX_TIME = 100;
+const DISTURBANCE_MAX_TIME = 300;
 const SOFT_DROP_POINTS = 1;
 const HARD_DROP_POINTS = 10;
 const AI_DELAY = 50;
@@ -244,7 +244,7 @@ class TetrisController {
   }
 
   checkState() {
-    if (this.aiRunning && this.state === "normal") {
+    if (this.aiRunning && this.state === "normal" && firstDisturbanceDone) {
       if (this.disturbanceCountdown > 0) {
         this.disturbanceCountdown--;
       } else {
@@ -264,6 +264,7 @@ class TetrisController {
   }
 
   clearDisturbance() {
+    firstDisturbanceDone = true;
     this.state = "normal";
     this.disturbanceCountdown = chooseDisturbanceCountdown();
   }

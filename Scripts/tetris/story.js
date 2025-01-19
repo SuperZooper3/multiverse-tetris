@@ -24,12 +24,16 @@ class StoryController {
             this.storyProgress = 1;
         }
         if (event.key === "Y") {
-            this.multiverseController.forceDisturbance();
+            this.eventAddressFirstDisturbance();
             this.storyProgress = 2;
         }
         if (event.key === "U" && event.shiftKey) {
             this.eventAddThirdAndFourthBoard();
             this.storyProgress = 3;
+        }
+        if (event.key === "I" && event.shiftKey) {
+            this.eventAddFifthAndSixthBoard();
+            this.storyProgress = 4;
         }
     }
 
@@ -47,13 +51,17 @@ class StoryController {
                 event: () => this.eventAddSecondBoard()
             },
             {
-                check: () => this.multiverseController.doHaveDisturbance(),
+                check: () => this.multiverseController.points > 500,
                 event: () => this.eventAddressFirstDisturbance()
             },
             {
                 check: () => this.multiverseController.points > 5000,
                 event: () => this.eventAddThirdAndFourthBoard()
             },
+            {
+                check: () => this.multiverseController.points > 10000,
+                event: () => this.eventAddFifthAndSixthBoard()
+            }
         ];
 
         // Execute the step if condition is met
@@ -70,11 +78,12 @@ class StoryController {
     eventAddSecondBoard(){
         console.log("Adding second board");
         multiverseController.addBoard();
-        this.setStoryText("You're doing great! We've got this new fangled AI technology, so now you're going to manage two boards at once. Click on the board to switch between them.");
+        this.setStoryText("You're doing great! We've got this new fangled AI technology, so now you can to manage two boards at once! What fun. Click on the board to switch between them.");
     }
 
     eventAddressFirstDisturbance(){
-        this.setStoryText("Oh no! It looks like there's a disturbance on a board! It looks like there's a new piece the AI has never seen before. By the time you've cleared 5 lines, the AI should have learned how to handle it.");
+        this.multiverseController.forceDisturbance();
+        this.setStoryText("Oh no! It looks like there's a disturbance on a board! There's a new piece the auto-AI has never seen before. Clear 2 lines manually to train the AI.");
     }
 
     eventAddThirdAndFourthBoard(){
@@ -85,7 +94,16 @@ class StoryController {
         }, 1000);
         this.setStoryText("You're a natural! We're going to add two more boards for you to manage. You're doing great! Keep it up! Don't mess up!");
     }
+
+    eventAddFifthAndSixthBoard(){
+        console.log("Adding fifth and sixth board");
+        multiverseController.addBoard();
+        setTimeout(() => {
+            multiverseController.addBoard();
+        }, 1000);
+        this.setStoryText("You're in the big leagues now! You've been promoted to cheif Tetris Traffic Controller! Make us proud!");
+    }
 }
 
 const storyController = new StoryController(multiverseController);
-storyController.setStoryText("Welcome to the Tetris Multiverse! You are the controller of the Multiverse. You can switch between the different universes by clicking on the boards below.");
+storyController.setStoryText("Welcome to your first day at Tetris Traffic Control! Your job is to manage the block traffic on this Tetris board by clearing rows.");
