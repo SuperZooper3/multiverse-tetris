@@ -73,4 +73,4 @@ class MultiverseController {
   }
 }
 
-const controller = new MultiverseController(6);
+const multiverseController = new MultiverseController(6);
