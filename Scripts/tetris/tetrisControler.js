@@ -109,6 +109,7 @@ class TetrisController {
 
   deactivate() {
     this.bigCanvas = null;
+    this.isActive = false;
     if (!this.isDisturbed()) {
         this.startAI();
     }
