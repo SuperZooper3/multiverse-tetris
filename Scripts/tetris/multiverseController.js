@@ -64,17 +64,32 @@ class MultiverseController {
     this.numberOfBoards++;
     newBoard.startAI();
   }
+
+  doHaveDisturbance() {
+    for (let i = 0; i < this.numberOfBoards; i++) {
+      if (this.boards[i].isDisturbed()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  forceDisturbance() {
+    for (let i = 0; i < this.numberOfBoards; i++) {
+      this.boards[i].disturbanceConfusion();
+    }
+  }
 }
 
 const multiverseController = new MultiverseController(1);
 
-// make a loop that adds 1 more boards every 10 seconds for a total of 5
-let i = 0;
-let interval = setInterval(() => {
-  if (i < 5) {
-    multiverseController.addBoard();
-    i++;
-  } else {
-    clearInterval(interval);
-  }
-}, 1000);
+// // make a loop that adds 1 more boards every 10 seconds for a total of 5
+// let i = 0;
+// let interval = setInterval(() => {
+//   if (i < 5) {
+//     multiverseController.addBoard();
+//     i++;
+//   } else {
+//     clearInterval(interval);
+//   }
+// }, 1000);

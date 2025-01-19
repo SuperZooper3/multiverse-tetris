@@ -118,8 +118,6 @@ class Tetris {
         this.gameBoard[i + 10].box.row += 1;
       }
     }
-
-    this.disturbanceLinesCleared += 1;
   }
 
   dropPiece() {
@@ -189,6 +187,8 @@ class Tetris {
     for (let i = rowsToDelete.length; i > 0; i--) {
       this.moveAllDown(rowsToDelete[i - 1]);
     }
+    this.disturbanceLinesCleared += rowsToDelete.length;
+    // console.log("Disturbance lines cleared: " + this.disturbanceLinesCleared);
     // calcutate the score that should be given for the number of cleared rows in real tetris
     let score = 0;
     if (rowsToDelete.length == 1) {

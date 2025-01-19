@@ -1,15 +1,17 @@
-const REQUIRED_LINES_TO_CLEAR = 5;
-const DISTURBANCE_MIN_TIME = 300;
-const DISTURBANCE_MAX_TIME = 1000;
+const REQUIRED_LINES_TO_CLEAR = 2;
+const DISTURBANCE_MIN_TIME = 30;
+const DISTURBANCE_MAX_TIME = 100;
 const SOFT_DROP_POINTS = 1;
 const HARD_DROP_POINTS = 10;
 const AI_DELAY = 50;
 
 function chooseDisturbanceCountdown() {
-  return Math.floor(
+  let countdown = Math.floor(
     Math.random() * (DISTURBANCE_MAX_TIME - DISTURBANCE_MIN_TIME) +
       DISTURBANCE_MIN_TIME
   );
+  console.log(`Countdown: ${countdown}`);
+  return countdown;
 }
 class TetrisController {
   constructor(id, multiverseController) {
@@ -161,14 +163,15 @@ class TetrisController {
     this.tetris.moveDown();
     this.draw();
     if (this.isDisturbed() && this.isActive) {
-      if (this.tetris.disturbanceClearCounter >= REQUIRED_LINES_TO_CLEAR) {
+      if (this.tetris.disturbanceLinesCleared >= REQUIRED_LINES_TO_CLEAR) {
         this.clearDisturbance();
-        this.tetris.disturbanceClearCounter = 0;
+        this.tetris.disturbanceLinesCleared = 0;
       }
     }
 
     if (!this.tetris.canFall()) {
       if (this.tetris.createObject(0) === false) {
+        console.log("Game Over 1");
         showGameOver(this.multiverseController.points);
         this.gameRunning = false;
         this.aiRunning = false;
@@ -194,6 +197,7 @@ class TetrisController {
         let tetrus = new aiTetrus(copyBoard, copyCurrentObject, copyHoldObject);
         let result = tetrus.placeOneObject();
         if (result === false) {
+            console.log("Game Over 2");
           showGameOver(this.multiverseController.points);
         } else if (result[1].length > 0) {
           if (result[4]) {
@@ -201,6 +205,7 @@ class TetrisController {
           }
           this.takeMoves(result[1]);
         } else {
+            console.log("Game Over 3");
           showGameOver(this.multiverseController.points);
         }
       }
@@ -245,7 +250,7 @@ class TetrisController {
       if (this.disturbanceCountdown > 0) {
         this.disturbanceCountdown--;
       } else {
-        const disturbances = [this.disturbanceSpeed];
+        const disturbances = [this.disturbanceConfusion];
         // pick a random disturbance from the array
         const disturbance =
           disturbances[Math.floor(Math.random() * disturbances.length)];
@@ -265,9 +270,8 @@ class TetrisController {
     console.log("Cleared disturbance");
   }
 
-  disturbanceSpeed() {
+  disturbanceConfusion() {
     this.state = "confused";
-    console.log("Disturbance speed");
     this.tetris.tetrisObject.addUnusedOption();
     // dissable the AI but leave it to keep falling idilly until you come and help
     this.disableAI();

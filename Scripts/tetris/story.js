@@ -1,13 +1,90 @@
+const MIN_SEC_BETWEEN_EVENTS = 5;
+
 class StoryController {
     constructor(multiverseController) {
         this.multiverseController = multiverseController;
+        this.storyProgress = 0;
+        this.lastEventTime = Date.now();
         this.storyElement = $("#story-box");
         console.log("StoryController created");
-    
+        this.checkForPoints();
+        // add a listener for keyboard events to call check cheatcode
+        $(document).on("keydown", (event) => {
+            this.checkCheatCode(event);
+        });
     }
 
     setStoryText(text) {
         this.storyElement.html(text);
+    }
+
+    checkCheatCode(event) {
+        // console.log(event, event.key, event.shiftKey);
+        if (event.key === "T") {
+            this.eventAddSecondBoard();
+            this.storyProgress = 1;
+        }
+        if (event.key === "Y") {
+            this.multiverseController.forceDisturbance();
+            this.storyProgress = 2;
+        }
+        if (event.key === "U" && event.shiftKey) {
+            this.eventAddThirdAndFourthBoard();
+            this.storyProgress = 3;
+        }
+    }
+
+    checkForPoints() {
+        // Skip if not enough time has passed
+        if (Date.now() - this.lastEventTime < MIN_SEC_BETWEEN_EVENTS * 1000) {
+            setTimeout(() => this.checkForPoints(), 1000);
+            return;
+        }
+
+        // Define story steps in order
+        const steps = [
+            {
+                check: () => this.multiverseController.points > 100,
+                event: () => this.eventAddSecondBoard()
+            },
+            {
+                check: () => this.multiverseController.doHaveDisturbance(),
+                event: () => this.eventAddressFirstDisturbance()
+            },
+            {
+                check: () => this.multiverseController.points > 5000,
+                event: () => this.eventAddThirdAndFourthBoard()
+            },
+        ];
+
+        // Execute the step if condition is met
+        if (steps[this.storyProgress] && steps[this.storyProgress].check()) {
+            steps[this.storyProgress].event();
+            this.storyProgress++;
+            this.lastEventTime = Date.now();
+        }
+
+        // Check again in 1 second
+        setTimeout(() => this.checkForPoints(), 1000);
+    }
+
+    eventAddSecondBoard(){
+        console.log("Adding second board");
+        multiverseController.addBoard();
+        this.setStoryText("You're doing great! We've got this new fangled AI technology, so now you're going to manage two boards at once. Click on the board to switch between them.");
+    }
+
+    eventAddressFirstDisturbance(){
+        this.setStoryText("Oh no! It looks like there's a disturbance on a board! It looks like there's a new piece the AI has never seen before. By the time you've cleared 5 lines, the AI should have learned how to handle it.");
+    }
+
+    eventAddThirdAndFourthBoard(){
+        console.log("Adding third and fourth board");
+        multiverseController.addBoard();
+        setTimeout(() => {
+            multiverseController.addBoard();
+        }, 1000);
+        this.setStoryText("You're a natural! We're going to add two more boards for you to manage. You're doing great! Keep it up! Don't mess up!");
     }
 }
 
