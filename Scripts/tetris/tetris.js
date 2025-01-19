@@ -1,6 +1,5 @@
 class Tetris {
-  constructor(multiverseController) {
-    this.multiverseController = multiverseController;
+  constructor() {
     this.currentObject = undefined;
     this.nextObject = undefined;
     this.holdObject = undefined;
@@ -8,6 +7,7 @@ class Tetris {
     this.gameBoard = new GameBoard();
     this.createObject(0);
     this.swapHold();
+    this.disturbanceLinesCleared = 0;
   }
 
   reset() {
@@ -102,8 +102,8 @@ class Tetris {
         }
       }
     }
-    this.checkForRow();
-    this.checkCurrent();
+    this.checkAndClearFullRows();
+    this.canFall();
   }
 
   moveAllDown(row) {
@@ -117,6 +117,8 @@ class Tetris {
         this.gameBoard[i + 10].box.row += 1;
       }
     }
+
+    this.disturbanceLinesCleared += 1;
   }
 
   dropPiece() {
@@ -148,59 +150,60 @@ class Tetris {
     return Math.min.apply(Math, rowsDown);
   }
 
-  checkForRow() {
-    let countToTen = 0;
-    let counter = 0;
-    let rowsDeleted = [];
+  checkAndClearFullRows() {
+    let cellsProcessed = 0;
+    let filledCellCount = 0;
+    let rowsToDelete = [];
+
+    // check every single tile in the board
     for (let i = 199; i >= 0; i--) {
+      // check if the current tile is part of the current piece
       for (let j = this.currentObject.length - 1; j >= 0; j--) {
         if (this.gameBoard[i].box == this.currentObject[j]) {
-          if (this.checkCurrent()) {
-            counter--;
-          }
+          if (this.canFall()) filledCellCount--;
         }
       }
-      if (this.gameBoard[i].box != undefined) {
-        counter++;
-      }
-      if (counter == 10) {
-        rowsDeleted[rowsDeleted.length] = i / 10;
-        counter = 0;
+
+      // check if the current tile is filled
+      if (this.gameBoard[i].box != undefined) filledCellCount++;
+
+      // if the row is full, mark it for deletion
+      if (filledCellCount == 10) {
+        rowsToDelete[rowsToDelete.length] = i / 10;
+        filledCellCount = 0;
+
         for (let j = 0; j < 10; j++) {
           this.gameBoard[i + j].box = undefined;
         }
       }
-      countToTen++;
 
-      if (countToTen > 9) {
-        countToTen = 0;
-        counter = 0;
+      cellsProcessed++;
+
+      if (cellsProcessed > 9) {
+        cellsProcessed = 0;
+        filledCellCount = 0;
       }
     }
-    for (let i = rowsDeleted.length; i > 0; i--) {
-      this.moveAllDown(rowsDeleted[i - 1]);
+
+    for (let i = rowsToDelete.length; i > 0; i--) {
+      this.moveAllDown(rowsToDelete[i - 1]);
     }
-    // calcutate the score that should be given for the number of cleared rows in real tetris
-    let score = 0;
-    if (rowsDeleted.length == 1) {
-      score = 40;
-    } else if (rowsDeleted.length == 2) {
-      score = 100;
-    } else if (rowsDeleted.length == 3) {
-      score = 300;
-    } else if (rowsDeleted.length == 4) {
-      score = 1200;
-    }
+
     this.multiverseController.points += score;
+
     return true;
   }
 
-  //check to see if the current peice being moves can fall farther
-  checkCurrent() {
+  // check if the current piece can fall farther
+  canFall() {
     for (let i = 0; i < this.currentObject.length; i++) {
       let row = this.currentObject[i].row;
       let column = this.currentObject[i].column;
+
+      // if piece is at the bottom of the board
       if (row >= 19) return false;
+
+      // if there's a piece below the current one
       if (
         this.gameBoard[(row + 1) * 10 + column].box != undefined &&
         !this.currentObject.includes(
@@ -209,6 +212,7 @@ class Tetris {
       )
         return false;
     }
+
     return true;
   }
 
@@ -305,16 +309,16 @@ class Tetris {
     } else if (box.blockType == 3) {
       if (box.rotation < 2) {
         if (box.row > 0 && box.column < 8) {
-          let peice = box.rotation + 2;
+          let piece = box.rotation + 2;
           let spot = column + box.rotation + 1 + 10 * (row + box.rotation - 1);
           if (this.gameBoard[spot].box == undefined) {
             let oldspot =
-              this.currentObject[peice].row * 10 +
-              this.currentObject[peice].column;
+              this.currentObject[piece].row * 10 +
+              this.currentObject[piece].column;
             this.gameBoard[oldspot].box = undefined;
-            this.currentObject[peice].row = Math.floor(spot / 10);
-            this.currentObject[peice].column = spot % 10;
-            this.gameBoard[spot].box = this.currentObject[peice];
+            this.currentObject[piece].row = Math.floor(spot / 10);
+            this.currentObject[piece].column = spot % 10;
+            this.gameBoard[spot].box = this.currentObject[piece];
             box.rotation = (box.rotation + 1) % 4;
           }
         }
@@ -454,62 +458,62 @@ class Tetris {
     }
   }
 
-  swap2(box, spot1, spot2, peice1, peice2) {
+  swap2(box, spot1, spot2, piece1, piece2) {
     if (
       this.gameBoard[spot1].box == undefined &&
       this.gameBoard[spot2].box == undefined
     ) {
       let oldspot1 =
-        this.currentObject[peice1].row * 10 + this.currentObject[peice1].column;
+        this.currentObject[piece1].row * 10 + this.currentObject[piece1].column;
       let oldspot2 =
-        this.currentObject[peice2].row * 10 + this.currentObject[peice2].column;
+        this.currentObject[piece2].row * 10 + this.currentObject[piece2].column;
 
       this.gameBoard[oldspot1].box = undefined;
       this.gameBoard[oldspot2].box = undefined;
 
-      this.currentObject[peice1].row = Math.floor(spot1 / 10);
-      this.currentObject[peice1].column = spot1 % 10;
+      this.currentObject[piece1].row = Math.floor(spot1 / 10);
+      this.currentObject[piece1].column = spot1 % 10;
 
-      this.currentObject[peice2].row = Math.floor(spot2 / 10);
-      this.currentObject[peice2].column = spot2 % 10;
+      this.currentObject[piece2].row = Math.floor(spot2 / 10);
+      this.currentObject[piece2].column = spot2 % 10;
 
-      this.gameBoard[spot1].box = this.currentObject[peice1];
-      this.gameBoard[spot2].box = this.currentObject[peice2];
+      this.gameBoard[spot1].box = this.currentObject[piece1];
+      this.gameBoard[spot2].box = this.currentObject[piece2];
 
       box.rotation = (box.rotation + 1) % 4;
     }
   }
 
-  swap3(box, spot1, spot3, spot4, peice1, peice3, peice4) {
+  swap3(box, spot1, spot3, spot4, piece1, piece3, piece4) {
     if (
       this.gameBoard[spot1].box == undefined &&
       this.gameBoard[spot3].box == undefined &&
       this.gameBoard[spot4].box == undefined
     ) {
       let oldspot1 =
-        this.currentObject[peice1].row * 10 + this.currentObject[peice1].column;
+        this.currentObject[piece1].row * 10 + this.currentObject[piece1].column;
       let oldspot3 =
-        this.currentObject[peice3].row * 10 + this.currentObject[peice3].column;
+        this.currentObject[piece3].row * 10 + this.currentObject[piece3].column;
       let oldspot4 =
-        this.currentObject[peice4].row * 10 + this.currentObject[peice4].column;
+        this.currentObject[piece4].row * 10 + this.currentObject[piece4].column;
 
       this.gameBoard[oldspot1].box = undefined;
 
       this.gameBoard[oldspot3].box = undefined;
       this.gameBoard[oldspot4].box = undefined;
 
-      this.currentObject[peice1].row = Math.floor(spot1 / 10);
-      this.currentObject[peice1].column = spot1 % 10;
+      this.currentObject[piece1].row = Math.floor(spot1 / 10);
+      this.currentObject[piece1].column = spot1 % 10;
 
-      this.currentObject[peice3].row = Math.floor(spot3 / 10);
-      this.currentObject[peice3].column = spot3 % 10;
+      this.currentObject[piece3].row = Math.floor(spot3 / 10);
+      this.currentObject[piece3].column = spot3 % 10;
 
-      this.currentObject[peice4].row = Math.floor(spot4 / 10);
-      this.currentObject[peice4].column = spot4 % 10;
+      this.currentObject[piece4].row = Math.floor(spot4 / 10);
+      this.currentObject[piece4].column = spot4 % 10;
 
-      this.gameBoard[spot1].box = this.currentObject[peice1];
-      this.gameBoard[spot3].box = this.currentObject[peice3];
-      this.gameBoard[spot4].box = this.currentObject[peice4];
+      this.gameBoard[spot1].box = this.currentObject[piece1];
+      this.gameBoard[spot3].box = this.currentObject[piece3];
+      this.gameBoard[spot4].box = this.currentObject[piece4];
 
       box.rotation = (box.rotation + 1) % 4;
     }
