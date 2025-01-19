@@ -1,33 +1,16 @@
-#tetrisContainer{
-	position: relative;
-	/* margin: auto; */
-	height: auto;
-	width: fit-content;
-	text-align: center;
-}
-
-#buttonBox {
-	position: absolute;
-	left: 75%;
-	top: 80%;
-	font-size: 50px;
+.buttons {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
 }
 
-.tetrisButton{
-	font-family: "VT323";
-	z-index: 1;
-	margin: 3px;
+.tetrisButton {
+	font-family: monospace;
+	font-size: 12px;
+	padding: 8px 12px;
 }
 
 .tetrisButton:hover{
 	text-decoration: underline !important;
 	cursor: pointer;
-}
-
-#tetris{
-	border: solid 2px black;
-	position: relative;
 }

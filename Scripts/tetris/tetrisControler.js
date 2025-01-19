@@ -25,17 +25,6 @@ class TetrisController {
         this.startAI();
     }
 
-    resizeButtons() {
-        let width = $(`#tetris-${this.boardID}`).width() / 20;
-        let height = $(`#tetris-${this.boardID}`).height() / 10;
-        $(`#tetrisStart-${this.boardID}`).css("left", $(`#tetrisContainer-${this.boardID}`).width() / 24);
-        $(`#tetrisAIStart-${this.boardID}`).css("right", $(`#tetrisContainer-${this.boardID}`).width() / 15);
-        $(`#tetrisStart-${this.boardID}`).css("font-size", Math.round(width) + "px");
-        $(`#tetrisAIStart-${this.boardID}`).css("font-size", Math.round(width) + "px");
-        $(`#tetrisStart-${this.boardID}`).css("bottom", height + "px");
-        $(`#tetrisAIStart-${this.boardID}`).css("bottom", height + "px");
-    }
-
     setup() {
         this.tetrisCanvas = new TetrisCanvas(this.boardID, this.lineHeight);
         this.tetris = new Tetris();
