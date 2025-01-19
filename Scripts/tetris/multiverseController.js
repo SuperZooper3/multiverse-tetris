@@ -38,14 +38,16 @@ class MultiverseController {
 
   setActive(boardID) {
     this.removeActive();
+    console.log("Setting active board to " + boardID);
     this.activeBoard = boardID;
     this.injectBigBoard(boardID);
+    console.log(this.boards);
     this.boards[boardID].actuallyGoActive();
   }
 
   removeActive() {
     if (this.activeBoard != null) {
-      this.boards[this.activeBoard].startAI();
+      this.boards[this.activeBoard].deactivate();
     }
   }
 

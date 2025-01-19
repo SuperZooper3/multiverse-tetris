@@ -1,6 +1,6 @@
 const REQUIRED_STEPS_TO_CLEAR = 10;
-const DISTURBANCE_MIN_TIME = 500;
-const DISTURBANCE_MAX_TIME = 3000;
+const DISTURBANCE_MIN_TIME = 10;
+const DISTURBANCE_MAX_TIME = 50;
 
 function chooseDisturbanceCountdown() {
   return Math.floor(
@@ -110,7 +110,9 @@ class TetrisController {
 
   deactivate() {
     this.bigCanvas = null;
-    this.boards[this.activeBoard].startAI();
+    if (!this.isDisturbed()) {
+        this.startAI();
+    }
   }
 
   startGame() {
@@ -148,19 +150,6 @@ class TetrisController {
 
   runGame() {
     this.moveTile(4);
-    if (this.isDisturbed()) {
-      if (this.disturbanceClearCounter >= REQUIRED_STEPS_TO_CLEAR) {
-        this.clearDisturbance();
-        this.disturbanceClearCounter = 0;
-      } else {
-        this.disturbanceClearCounter++;
-        console.log(
-          "Working on clearing disturbance",
-          this.disturbanceClearCounter
-        );
-      }
-    }
-
     if (this.isDisturbed()) {
       if (this.disturbanceClearCounter >= REQUIRED_STEPS_TO_CLEAR) {
         this.clearDisturbance();
@@ -252,8 +241,6 @@ class TetrisController {
         this.disturbanceCountdown--;
       } else {
         const disturbances = [
-          this.disturbanceNoise,
-          this.disturbanceBlock,
           this.disturbanceSpeed,
         ];
         // pick a random disturbance from the array
@@ -275,18 +262,10 @@ class TetrisController {
     console.log("Cleared disturbance");
   }
 
-  disturbanceNoise() {
-    this.state = "noise";
-    console.log("Disturbance noise");
-  }
-
-  disturbanceBlock() {
-    this.state = "block";
-    console.log("Disturbance block");
-  }
-
   disturbanceSpeed() {
     this.state = "confused";
     console.log("Disturbance speed");
+    this.tetris.tetrisObject.addUnusedOption();
+    // dissable the AI but leave it to keep falling idilly until you come and help
   }
 }

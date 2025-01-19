@@ -6,20 +6,16 @@ const lineHeight = 1;
 function pickBoardColour(controller) {
   if (controller.isDisturbed()) {
     switch (controller.state) {
-      case "noise":
-        return "pink";
-      case "block":
-        return "yellow";
       case "confused":
-        return "green";
+        return "yellow";
       default:
-        return "red";
+        return "magenta";
     }
   }
   return controller.gameRunning
     ? "white"
     : controller.aiRunning
-    ? "orange"
+    ? "lightgrey"
     : "grey";
 }
 
