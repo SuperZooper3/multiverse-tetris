@@ -177,7 +177,7 @@ class TetrisController {
 
     if (!this.tetris.checkCurrent()) {
       if (this.tetris.createObject(0) === false) {
-        console.log("Game over");
+        showGameOver(this.multiverseController.points);
         this.gameRunning = false;
         this.aiRunning = false;
         clearInterval(this.gameInterval);
@@ -202,14 +202,14 @@ class TetrisController {
       let tetrus = new aiTetrus(copyBoard, copyCurrentObject, copyHoldObject);
       let result = tetrus.placeOneObject();
       if (result === false) {
-        // game over logic
+        showGameOver(this.multiverseController.points);
       } else if (result[1].length > 0) {
         if (result[4]) {
           this.tetris.swapHold();
         }
         this.takeMoves(result[1]);
       } else {
-        // game over logic
+        showGameOver(this.multiverseController.points);
       }
     }
   }

@@ -26,6 +26,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="Scripts/tetris/gameOver.js"></script>
     <script src="Scripts/tetris/aiTetris.js"></script>
     <script src="Scripts/tetris/tetrisBox.js"></script>
     <script src="Scripts/tetris/tetrisObject.js"></script>
@@ -35,29 +36,5 @@
     <script src="Scripts/tetris/tetrisControler.js"></script>
     <script src="Scripts/tetris/multiverseController.js"></script>
     <script src="Scripts/tetris/finally.js"></script>
-    <script>
-      function showGameOver(score) {
-        document.getElementById('finalScore').textContent = `Your Score: ${score}`;
-        document.getElementById('gameOverScreen').style.display = 'flex';
-      }
-
-      function restartGame() {
-        document.getElementById('gameOverScreen').style.display = 'none';
-        console.log('Game Restarted');
-        location.reload(); // Reloads the current page
-      }
-
-
-      function checkGameOverCondition() {
-        const gameOver = true; 
-        const finalScore = 123; 
-        if (gameOver) {
-          showGameOver(finalScore);
-          console.log('Game Over');
-        }
-      }
-
-      setTimeout(checkGameOverCondition, 60000);
-    </script>
   </body>
 </html>
