@@ -7,13 +7,12 @@ class MultiverseController {
     for (let i = 0; i < this.numberOfBoards; i++) {
       this.boards.push(this.createBoard());
     }
-
   }
 
   createBoard() {
     let id = this.boards.length;
     let tetrisContainer = $(`
-        <div id="tetrisContainer-${id}" class="thing">
+        <div id="tetrisContainer-${id}" class="gridItem">
             <canvas id="tetris-${id}"></canvas>
         </div>
     `);
@@ -26,17 +25,17 @@ class MultiverseController {
   injectBigBoard(boardID) {
     let id = `focus-${boardID}`;
     let tetrisContainer = $(`
-        <div id="tetrisContainer-${id}" class="thing">
+        <div id="tetrisContainer-${id}" class="gridItem">
             <canvas id="tetris-${id}"></canvas>
         </div>
     `);
 
-    $("#me").html(tetrisContainer);
+    $("#main").html(tetrisContainer);
     console.log("Created big board with id: " + id);
   }
 
   setActive(boardID) {
-    if(this.activeBoard == boardID) {
+    if (this.activeBoard == boardID) {
       this.injectBigBoard(boardID);
       console.log(this.boards);
       this.boards[boardID].actuallyGoActive();
@@ -69,7 +68,7 @@ class MultiverseController {
     });
     return this.disturbance;
   }
-/*
+  /*
   countActiveBoards() {
     const activeCount = Array.from(this.boardStates.values())
       .filter(state => state === "active")
