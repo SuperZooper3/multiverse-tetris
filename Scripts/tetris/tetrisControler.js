@@ -1,6 +1,6 @@
 const REQUIRED_STEPS_TO_CLEAR = 10;
-const DISTURBANCE_MIN_TIME = 10;
-const DISTURBANCE_MAX_TIME = 50;
+const DISTURBANCE_MIN_TIME = 300;
+const DISTURBANCE_MAX_TIME = 1000;
 
 function chooseDisturbanceCountdown() {
   return Math.floor(
@@ -26,7 +26,6 @@ class TetrisController {
     this.disturbanceClearCounter = 0;
     this.bigCanvas = null;
     this.setup();
-    this.startAI();
   }
 
   setup() {
@@ -157,7 +156,7 @@ class TetrisController {
 
   runGame() {
     this.moveTile(4);
-    if (this.isDisturbed()) {
+    if (this.isDisturbed() && this.isActive) {
       if (this.disturbanceClearCounter >= REQUIRED_STEPS_TO_CLEAR) {
         this.clearDisturbance();
         this.disturbanceClearCounter = 0;
