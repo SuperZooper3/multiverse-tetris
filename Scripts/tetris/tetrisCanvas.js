@@ -3,6 +3,21 @@ const pixleRatio = window.devicePixelRatio || 1
 const boxSize = 40 * pixleRatio
 const lineHeight = 1;
 
+function pickBoardColour(controller) {
+    if (controller.isDisturbed()) {
+        switch (controller.state) {
+            case "noise":
+                return "pink";
+            case "block":
+                return "yellow";
+            case "confused":
+                return "green";
+            default:
+                return "red";
+        }
+    }
+    return controller.gameRunning ? "white" : (controller.aiRunning ? "orange": "grey")
+}
 
 class StandardTetrisCanvas {
     constructor(boardID, lineHeight, width = 20, height = 22, windowWidth = window.innerWidth, windowHeight = window.innerHeight){
@@ -147,7 +162,7 @@ class TetrisCanvas extends StandardTetrisCanvas{
         super.drawBoard(
             tetrisController.tetris.predictLanding(), 
             tetrisController.tetris.getGame(), 
-            tetrisController.gameRunning ? (tetrisController.aiRunning ? "orange": "white") : "grey", 
+            pickBoardColour(tetrisController), 
             tetrisController.aiRunning
         );
 
@@ -190,6 +205,6 @@ class TetrisMiniCanvas extends StandardTetrisCanvas{
     draw(tetrisController){
         // tetris.predictLanding(), this.tetris.getGame(), this.tilesCleared, this.aiRunning
         let tetris = tetrisController.tetris;
-        super.drawBoard(tetris.predictLanding(), tetris.getGame(), tetrisController.gameRunning ? (tetrisController.aiRunning ? "orange": "white") : "grey", tetrisController.aiRunning);
+        super.drawBoard(tetris.predictLanding(), tetris.getGame(), pickBoardColour(tetrisController), tetrisController.aiRunning);
     }
 }

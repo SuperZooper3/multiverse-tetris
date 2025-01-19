@@ -29,27 +29,27 @@ class MultiverseController {
   }
 
   removeActive() {
-    if (this.activeBoard != null) {
-      this.boards[this.activeBoard].startAI();
-    }
+      if (this.activeBoard != null) {
+          this.boards[this.activeBoard].startAI();
+      }
   }
 
   activeDisturbance() {
-    this.disturbance = false;
-    this.boards.forEach((board, index) => {
-      let state = board.getState();
+      this.disturbance = false;
+      this.boards.forEach((board, index) => {
+          let state = board.state;
 
-      if (state === "disturbed") {
-        this.disturbance = true;
-        console.log(`Board ${index} is disturbed.`);
-      } else {
-        console.log(`Board ${index} is normal.`);
-      }
-    });
+          if (state !== "normal") {
+              this.disturbance = true;
+              console.log(`Board ${index} is disturbed.`);
+          } else {
+              console.log(`Board ${index} is normal.`);
+          }
+      });
 
-    return this.disturbance;
+      return this.disturbance;
+    }
   }
-}
 
-const controller = new MultiverseController(10);
+const controller = new MultiverseController(5);
 controller.activeDisturbance();

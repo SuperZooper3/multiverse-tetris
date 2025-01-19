@@ -1,6 +1,14 @@
- class TetrisController {
+const REQUIRED_STEPS_TO_CLEAR = 10;
+const DISTURBANCE_MIN_TIME = 500;
+const DISTURBANCE_MAX_TIME = 3000;
+
+function chooseDisturbanceCountdown() {
+    return Math.floor(Math.random() * (DISTURBANCE_MAX_TIME - DISTURBANCE_MIN_TIME) + DISTURBANCE_MIN_TIME);
+}
+class TetrisController {
     constructor(id, multiverseController) {
         this.multiverseController = multiverseController;
+        this.boardUUID = Math.floor(Math.random() * 1000000000);
         this.boardID = id;
         this.lineHeight = 1;
         this.gameRunning = false;
@@ -10,6 +18,9 @@
         this.isActive = null;
         this.tetrisCanvas = null;
         this.tetris = null;
+        this.state = "normal";
+        this.disturbanceCountdown = chooseDisturbanceCountdown();
+        this.disturbanceClearCounter = 0;
         this.setup();
         this.startAI();
     }
@@ -118,6 +129,26 @@
 
     runGame() {
         this.moveTile(4);
+        if (this.isDisturbed()) {
+            if (this.disturbanceClearCounter >= REQUIRED_STEPS_TO_CLEAR) {
+                this.clearDisturbance();
+                this.disturbanceClearCounter = 0;
+            } else {
+                this.disturbanceClearCounter++;
+                console.log("Working on clearing disturbance", this.disturbanceClearCounter);
+            }
+        }
+
+        if (this.isDisturbed()) {
+            if (this.disturbanceClearCounter >= REQUIRED_STEPS_TO_CLEAR) {
+                this.clearDisturbance();
+                this.disturbanceClearCounter = 0;
+            } else {
+                this.disturbanceClearCounter++;
+                console.log("Working on clearing disturbance", this.disturbanceClearCounter);
+            }
+        }
+
         if (!this.tetris.checkCurrent()) {
             this.tilesCleared++;
             if (this.tetris.createObject(0) === false) {
@@ -157,6 +188,7 @@
     takeMoves(moves) {
         for (let i = moves.length - 1; i > 0; i--) {
             let action;
+            this.checkState();
             if (moves[i] === 1) {
                 action = 2;
             } else if (moves[i] === 2) {
@@ -186,20 +218,43 @@
             }
         }, 10 * (loop + moves.length));
     }
-    getState() {
-        // Determines the state of the board
-        if (!this.tetris) {
-            return "unknown"; // The game hasn't been initialized properly
-        }
 
-        if (!this.gameRunning) {
-            return "normal"; // Game is not running
+    checkState() {
+        if (this.aiRunning && this.state === "normal") {
+            if (this.disturbanceCountdown > 0) {
+                this.disturbanceCountdown--;
+            } else {
+                const disturbances = [this.disturbanceNoise, this.disturbanceBlock, this.disturbanceSpeed];
+                // pick a random disturbance from the array
+                const disturbance = disturbances[Math.floor(Math.random() * disturbances.length)];
+                disturbance.call(this);
+            }
         }
+        return this.state;
+    }
 
-        if (this.aiRunning) {
-            return "disturbed"; // AI is running, indicating a potential disturbance
-        }
+    isDisturbed() {
+        return this.state !== "normal";
+    }
 
-        return "normal"; // Default state
+    clearDisturbance() {
+        this.state = "normal";
+        this.disturbanceCountdown = chooseDisturbanceCountdown();
+        console.log("Cleared disturbance");
+    }
+
+    disturbanceNoise() {
+        this.state = "noise";
+        console.log("Disturbance noise");
+    }
+
+    disturbanceBlock() {
+        this.state = "block";
+        console.log("Disturbance block");
+    }
+
+    disturbanceSpeed() {
+        this.state = "confused";
+        console.log("Disturbance speed");
     }
 }
