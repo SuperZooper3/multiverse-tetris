@@ -64,7 +64,6 @@ class TetrisObject {
     } else if (randomNumber == 7) {
       object = this.createLBlock();
     }
-
     return object;
   }
 
@@ -133,7 +132,23 @@ class TetrisObject {
 
     return boxes;
   }
+  createMBlock() {
+       
+    let color = "rgb(0, 0, 0)"; 
+    let boxes = [];
+    let firstRowColumns = [3, 4, 5, 6, 7]; 
+    let secondRowColumns = [3, 5, 7]; 
 
+    for (let i = 0; i < firstRowColumns.length; i++) {
+        boxes[i] = this.createBox();
+        boxes[i].blockType = 8;  
+        boxes[i].column = firstRowColumns[i];
+        boxes[i].row = 0;
+        boxes[i].color = color;
+        boxes[i].blockPosition = i;
+        boxes[i].maxRotation = 1;
+    }
+  }
   createSBlock() {
     let color = "rgb(0,255,25)";
     let boxes = [];

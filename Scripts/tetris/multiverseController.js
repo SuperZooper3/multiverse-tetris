@@ -71,19 +71,6 @@ class MultiverseController {
     });
     return this.disturbance;
   }
-/*
-  countActiveBoards() {
-    const activeCount = Array.from(this.boardStates.values())
-      .filter(state => state === "active")
-      .length;
-    return activeCount;
-  }
-
-  logActiveBoards() {
-    const activeCount = this.countActiveBoards();
-    console.log("Number of Active Boards:", activeCount);
-  }
-  */
 }
 
 const controller = new MultiverseController(6);
