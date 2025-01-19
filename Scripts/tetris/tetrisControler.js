@@ -48,7 +48,7 @@ class TetrisController {
 
   keyPress(event) {
     const keyPressed = event.keyCode;
-    if ([40, 39, 38, 37, 13, 32].includes(keyPressed)) {
+    if ([40, 39, 38, 37, 13, 32].includes(keyPressed) && this.aiRunning) {
       event.preventDefault();
     }
     if (this.gameRunning && !this.aiRunning && this.isActive) {
@@ -148,6 +148,13 @@ class TetrisController {
     }
   }
 
+  disableAI() {
+    this.aiRunning = false;
+    this.isActive = false;
+    clearInterval(this.gameInterval);
+    this.gameInterval = setInterval(() => this.runGame(), 800);
+  }
+
   runGame() {
     this.moveTile(4);
     if (this.isDisturbed()) {
@@ -163,6 +170,8 @@ class TetrisController {
       }
     }
 
+
+
     if (!this.tetris.checkCurrent()) {
       this.tilesCleared++;
       if (this.tetris.createObject(0) === false) {
@@ -175,6 +184,7 @@ class TetrisController {
   }
 
   ai(game) {
+    if(this.aiRunning) {
     if (game[1] !== undefined) {
       let copyBoard = JSON.parse(JSON.stringify(game[0]));
       let copyCurrentObject = JSON.parse(JSON.stringify(game[1]));
@@ -199,6 +209,7 @@ class TetrisController {
         // game over logic
       }
     }
+  }
   }
 
   takeMoves(moves) {
@@ -267,5 +278,6 @@ class TetrisController {
     console.log("Disturbance speed");
     this.tetris.tetrisObject.addUnusedOption();
     // dissable the AI but leave it to keep falling idilly until you come and help
+    this.disableAI();
   }
 }
