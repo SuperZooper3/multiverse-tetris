@@ -1,6 +1,9 @@
-const REQUIRED_LINES_TO_CLEAR = 5;
-const DISTURBANCE_MIN_TIME = 10;
-const DISTURBANCE_MAX_TIME = 50;
+const REQUIRED_STEPS_TO_CLEAR = 10;
+const DISTURBANCE_MIN_TIME = 300;
+const DISTURBANCE_MAX_TIME = 1000;
+const SOFT_DROP_POINTS = 1;
+const HARD_DROP_POINTS = 10;
+const AI_DELAY = 50;
 
 function chooseDisturbanceCountdown() {
   return Math.floor(
@@ -8,7 +11,6 @@ function chooseDisturbanceCountdown() {
       DISTURBANCE_MIN_TIME
   );
 }
-
 class TetrisController {
   constructor(id, multiverseController) {
     this.multiverseController = multiverseController;
@@ -18,20 +20,19 @@ class TetrisController {
     this.gameRunning = false;
     this.aiRunning = false;
     this.gameInterval = null;
-    multiverseController.tilesCleared = 0;
     this.isActive = null;
     this.tetrisCanvas = null;
     this.tetris = null;
     this.state = "normal";
     this.disturbanceCountdown = chooseDisturbanceCountdown();
+    this.disturbanceClearCounter = 0;
     this.bigCanvas = null;
     this.setup();
-    this.startAI();
   }
 
   setup() {
     this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
-    this.tetris = new Tetris();
+    this.tetris = new Tetris(this.multiverseController);
     this.draw();
 
     $(`#tetris-${this.boardID}`).click(() => this.startGame());
@@ -72,10 +73,14 @@ class TetrisController {
       case 4:
       case 83: // s
       case 40: // down
+        if (!this.aiRunning) {
+            this.multiverseController.points += SOFT_DROP_POINTS;
+        }
         this.tetris.moveDown();
         break;
       case 5:
       case 32: // space
+        this.multiverseController.points += HARD_DROP_POINTS;
         this.tetris.dropPiece();
         break;
       case 3: // cancel
@@ -84,7 +89,7 @@ class TetrisController {
         this.tetris.rotate();
         break;
       case 6:
-      case 16: // shift
+      case 13: // enter
       case 67: // c
         this.tetris.swapHold();
         break;
@@ -110,8 +115,9 @@ class TetrisController {
 
   deactivate() {
     this.bigCanvas = null;
+    this.isActive = false;
     if (!this.isDisturbed()) {
-      this.startAI();
+        this.startAI();
     }
   }
 
@@ -119,6 +125,7 @@ class TetrisController {
     if (!this.gameRunning) {
       this.setSelfActive();
       setTimeout(() => {
+        //this.tetris.reset();
         this.moveTile();
       }, 500);
 
@@ -138,6 +145,7 @@ class TetrisController {
     if (!this.aiRunning) {
       this.gameRunning = true;
       this.startGame();
+      //this.tetris.reset();
       this.moveTile();
       this.aiRunning = true;
       this.ai(this.tetris.getGame());
@@ -154,17 +162,20 @@ class TetrisController {
   runGame() {
     this.tetris.moveDown();
     this.draw();
-
-    // clear disturbance if enough lines have been cleared
-    if (
-      this.isDisturbed() &&
-      this.tetris.disturbanceLinesCleared >= REQUIRED_LINES_TO_CLEAR
-    ) {
-      this.clearDisturbance();
-      this.tetris.disturbanceLinesCleared = 0;
+    if (this.isDisturbed() && this.isActive) {
+      if (this.disturbanceClearCounter >= REQUIRED_STEPS_TO_CLEAR) {
+        this.clearDisturbance();
+        this.disturbanceClearCounter = 0;
+      } else {
+        this.disturbanceClearCounter++;
+        console.log(
+          "Working on clearing disturbance",
+          this.disturbanceClearCounter
+        );
+      }
     }
 
-    if (!this.tetris.canFall()) {
+    if (!this.tetris.checkCurrent()) {
       if (this.tetris.createObject(0) === false) {
         showGameOver(this.multiverseController.points);
         this.gameRunning = false;
@@ -176,32 +187,32 @@ class TetrisController {
   }
 
   ai(game) {
-    if (this.aiRunning) {
-      if (game[1] !== undefined) {
-        let copyBoard = JSON.parse(JSON.stringify(game[0]));
-        let copyCurrentObject = JSON.parse(JSON.stringify(game[1]));
-        let copyHoldObject = JSON.parse(JSON.stringify(game[2]));
+    if(this.aiRunning) {
+    if (game[1] !== undefined) {
+      let copyBoard = JSON.parse(JSON.stringify(game[0]));
+      let copyCurrentObject = JSON.parse(JSON.stringify(game[1]));
+      let copyHoldObject = JSON.parse(JSON.stringify(game[2]));
 
-        for (let i = 0; i < copyCurrentObject.length; i++) {
-          copyBoard[
-            copyCurrentObject[i].column + copyCurrentObject[i].row * 10
-          ].box = undefined;
-        }
+      for (let i = 0; i < copyCurrentObject.length; i++) {
+        copyBoard[
+          copyCurrentObject[i].column + copyCurrentObject[i].row * 10
+        ].box = undefined;
+      }
 
-        let tetris = new aiTetris(copyBoard, copyCurrentObject, copyHoldObject);
-        let result = tetris.placeOneObject();
-        if (result === false) {
-          showGameOver(this.multiverseController.points);
-        } else if (result[1].length > 0) {
-          if (result[4]) {
-            this.tetris.swapHold();
-          }
-          this.takeMoves(result[1]);
-        } else {
-          showGameOver(this.multiverseController.points);
+      let tetrus = new aiTetrus(copyBoard, copyCurrentObject, copyHoldObject);
+      let result = tetrus.placeOneObject();
+      if (result === false) {
+        showGameOver(this.multiverseController.points);
+      } else if (result[1].length > 0) {
+        if (result[4]) {
+          this.tetris.swapHold();
         }
+        this.takeMoves(result[1]);
+      } else {
+        showGameOver(this.multiverseController.points);
       }
     }
+  }
   }
 
   takeMoves(moves) {
@@ -224,18 +235,17 @@ class TetrisController {
     for (let i = 0; i < loop; i++) {
       setTimeout(() => {
         this.moveTile(4);
-      }, 10 * (i + moves.length));
+      }, AI_DELAY * (i + moves.length));
     }
 
     setTimeout(() => {
-      if (this.tetris.checkAndClearFullRows()) {
-        this.multiverseController.tilesCleared++;
+      if (this.tetris.checkForRow()) {
         this.tetris.createObject(0);
         if (!this.gameRunning) {
           this.ai(this.tetris.getGame());
         }
       }
-    }, 10 * (loop + moves.length));
+    }, AI_DELAY * (loop + moves.length));
   }
 
   checkState() {
@@ -243,7 +253,9 @@ class TetrisController {
       if (this.disturbanceCountdown > 0) {
         this.disturbanceCountdown--;
       } else {
-        const disturbances = [this.disturbanceSpeed];
+        const disturbances = [
+          this.disturbanceSpeed,
+        ];
         // pick a random disturbance from the array
         const disturbance =
           disturbances[Math.floor(Math.random() * disturbances.length)];

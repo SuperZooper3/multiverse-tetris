@@ -1,4 +1,6 @@
-class aiTetris {
+// creating the canvas
+
+class aiTetrus {
   constructor(b, c, h) {
     this.board = b;
     this.c = c;
@@ -52,6 +54,7 @@ class aiTetris {
       case 5:
         this.aiSwapHold();
         return true;
+        break;
       case 3:
         if (this.aiRotate(cObject)) {
           return true;
@@ -164,7 +167,6 @@ class aiTetris {
     }
     return false;
   }
-
   aiScoreRow(currentObject) {
     let total = 0;
     let countToTen = 0;
@@ -192,7 +194,6 @@ class aiTetris {
     }
     return total;
   }
-
   aiSwapHold() {
     if (this.hObject == undefined) {
       for (let i = 0; i < this.c.length; i++) {
@@ -215,7 +216,6 @@ class aiTetris {
       this.hObject = this.aiCreateObject(temp[0].blockType);
     }
   }
-
   aiRotate(object) {
     let box = object[0];
     let count = 0;
@@ -275,13 +275,13 @@ class aiTetris {
     } else if (box.blockType == 3) {
       if (box.rotation == 1 || box.rotation == 2) {
         if (box.row < 19) {
-          let piece;
+          let peice;
           let spot;
           if (box.rotation == 2) {
-            piece = 3;
+            peice = 3;
             spot = column + 1 + 10 * (row + 1);
           } else {
-            piece = 2;
+            peice = 2;
             spot = column + 2 + 10 * row;
           }
           if (
@@ -289,8 +289,8 @@ class aiTetris {
             object.includes(this.board[spot].box) ||
             this.c.includes(this.board[spot].box)
           ) {
-            object[piece].row = Math.floor(spot / 10);
-            object[piece].column = spot % 10;
+            object[peice].row = Math.floor(spot / 10);
+            object[peice].column = spot % 10;
 
             box.rotation -= 1;
             if (box.rotation < 0) {
@@ -426,18 +426,18 @@ class aiTetris {
     return false;
   }
 
-  aiSwap2(box, spot1, spot2, piece1, piece2, object) {
+  aiSwap2(box, spot1, spot2, peice1, peice2, object) {
     if (
       (this.board[spot1].box == undefined &&
         this.board[spot2].box == undefined) ||
       this.c.includes(this.board[spot1].box) ||
       this.c.includes(this.board[spot2].box)
     ) {
-      object[piece1].row = Math.floor(spot1 / 10);
-      object[piece1].column = spot1 % 10;
+      object[peice1].row = Math.floor(spot1 / 10);
+      object[peice1].column = spot1 % 10;
 
-      object[piece2].row = Math.floor(spot2 / 10);
-      object[piece2].column = spot2 % 10;
+      object[peice2].row = Math.floor(spot2 / 10);
+      object[peice2].column = spot2 % 10;
 
       box.rotation -= 1;
       if (box.rotation < 0) {
@@ -447,7 +447,7 @@ class aiTetris {
     }
   }
 
-  aiSwap3(box, spot1, spot3, spot4, piece1, piece3, piece4, object) {
+  aiSwap3(box, spot1, spot3, spot4, peice1, peice3, peice4, object) {
     if (
       (this.board[spot1].box == undefined &&
         this.board[spot3].box == undefined &&
@@ -456,12 +456,12 @@ class aiTetris {
       this.c.includes(this.board[spot3].box) ||
       this.c.includes(this.board[spot4].box)
     ) {
-      object[piece1].row = Math.floor(spot1 / 10);
-      object[piece1].column = spot1 % 10;
-      object[piece3].row = Math.floor(spot3 / 10);
-      object[piece3].column = spot3 % 10;
-      object[piece4].row = Math.floor(spot4 / 10);
-      object[piece4].column = spot4 % 10;
+      object[peice1].row = Math.floor(spot1 / 10);
+      object[peice1].column = spot1 % 10;
+      object[peice3].row = Math.floor(spot3 / 10);
+      object[peice3].column = spot3 % 10;
+      object[peice4].row = Math.floor(spot4 / 10);
+      object[peice4].column = spot4 % 10;
       box.rotation -= 1;
       if (box.rotation < 0) {
         box.rotation = 3;
@@ -469,7 +469,7 @@ class aiTetris {
       return true;
     }
   }
-
+  //done
   getRowScore(copyObject, currentObject, row) {
     let score = 0;
     let length = copyObject.length;
@@ -479,7 +479,7 @@ class aiTetris {
     }
     return score;
   }
-
+  //done
   addToBoard(currentObject) {
     let board = JSON.parse(JSON.stringify(this.board));
     let length = currentObject.length;
@@ -490,7 +490,7 @@ class aiTetris {
     }
     return board;
   }
-
+  // done
   checkForEmptyBelow(copyObject) {
     let score = 0;
     let board = this.addToBoard(copyObject);
@@ -726,7 +726,10 @@ class aiTetris {
         0,
         combinedpossibleSpots[i][3]
       );
-      if (returnValue[0] == true) return returnValue;
+      if (returnValue[0] == true) {
+        return returnValue;
+      } else {
+      }
     }
     return false;
   }
@@ -754,6 +757,7 @@ class aiTetris {
         }
       }
       if (correctPositions != 4) {
+        // this.addToBoard();
         let spaceAbove;
         if (depthCount == 0) {
           spaceAbove = this.aiSpacesAbove(currentObject) - 2;

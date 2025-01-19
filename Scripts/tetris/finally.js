@@ -1,1 +1,1 @@
-// controller.setActive(0);
+controller.setActive(0);
