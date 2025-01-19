@@ -14,11 +14,19 @@ body {
 }
 
 header {
-    width: 100%;
-    text-align: center;
+    width: 60%;
     padding: 20px 0;
+    text-align: center;
     color: whitesmoke;
 	text-shadow: #000000 1px 0 10px;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+#story-box {
+    font-size: 20px;
 }
 
 /* Game layout */
