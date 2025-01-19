@@ -28,6 +28,25 @@ class MultiverseController {
     return new TetrisController(id, this);
   }
 
+  injectBigBoard(boardID) {
+    let id = `focus-${boardID}`;
+    let tetrisContainer = $(`
+        <div id="tetrisContainer-${id}" class="thing">
+            <canvas id="tetris-${id}"></canvas>
+        </div>
+    `);
+
+    $("#me").html(tetrisContainer);
+    console.log("Created big board with id: " + id);
+  }
+
+  setActive(boardID) {
+    this.removeActive();
+    this.activeBoard = boardID;
+    this.injectBigBoard(boardID);
+    this.boards[boardID].actuallyGoActive();
+  }
+
   removeActive() {
       if (this.activeBoard != null) {
           this.boards[this.activeBoard].startAI();
@@ -52,4 +71,3 @@ class MultiverseController {
   }
 
 const controller = new MultiverseController(5);
-controller.activeDisturbance();

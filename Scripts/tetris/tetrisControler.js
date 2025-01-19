@@ -21,25 +21,27 @@ class TetrisController {
         this.state = "normal";
         this.disturbanceCountdown = chooseDisturbanceCountdown();
         this.disturbanceClearCounter = 0;
+        this.bigCanvas = null;
         this.setup();
         this.startAI();
     }
 
     setup() {
-        this.tetrisCanvas = new TetrisCanvas(this.boardID, this.lineHeight);
+        this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
         this.tetris = new Tetris();
-        this.tetrisCanvas.draw(this);
+        this.draw();
 
         $(`#tetrisStart-${this.boardID}`).click(() =>  this.startGame());
         $(`#tetrisAIStart-${this.boardID}`).click(() => this.startAI());
 
         document.addEventListener("keydown", (event) => this.keyPress(event));
     }
-    setBig() {
-        this.tetrisCanvas = new TetrisCanvas(this.boardID, this.lineHeight);
-    }
-    setMini() {
-        this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
+
+    draw() {
+        this.tetrisCanvas.draw(this);
+        if (this.bigCanvas !== null) {
+            this.bigCanvas.draw(this);
+        }
     }
 
     keyPress(event) {
@@ -88,14 +90,27 @@ class TetrisController {
                 this.ai(this.tetris.getGame());
                 break;
         }
-        this.tetrisCanvas.draw(this);
+        this.draw();
+    }
+
+    actuallyGoActive() {
+        console.log(`focus-${this.boardID}`);
+        this.bigCanvas = new TetrisCanvas(`focus-${this.boardID}`, this.lineHeight);
+        console.log("Actually going active");
+    }
+
+    setSelfActive() {
+        this.multiverseController.setActive(this.boardID);
+    }
+
+    deactivate() {
+        this.bigCanvas = null;
+        this.boards[this.activeBoard].startAI();
     }
 
     startGame() {
         if (!this.gameRunning) {
-            this.multiverseController.removeActive();
-            this.multiverseController.activeBoard = this.boardID;
-            this.setBig();
+            this.setSelfActive();
             this.tilesCleared = 0;
             setTimeout(() => {
                 //this.tetris.reset();
@@ -116,7 +131,6 @@ class TetrisController {
 
     startAI() {
         if (!this.aiRunning) {
-            this.setMini();
             this.gameRunning = true;
             this.startGame();
             //this.tetris.reset();
