@@ -63,7 +63,6 @@ header {
 .game-over-content {
     background-color: rgba(0, 0, 0, 0.9);
     padding: 60px;
-    border-radius: 15px;
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
     text-align: center;
 }
@@ -72,7 +71,7 @@ header {
     font-family: 'Russo One', sans-serif;
     font-size: 4rem;
     margin: 0 0 30px 0;
-    color: #ff1744;
+    color: #c30a0a;
     letter-spacing: 2px;
     text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.1);
     animation: slideIn 1s ease-out;
@@ -87,24 +86,23 @@ header {
 }
 
 .restart-btn {
-    background-color: #ff4081;
+    background-color: #c30a0a;
     color: white;
     font-size: 1.3rem;
     padding: 15px 30px;
     border: none;
-    border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .restart-btn:hover {
-    background-color: #f50057;
+    background-color: #ff0000;
     transform: scale(1.1);
 }
 
 .restart-btn:active {
-    background-color: #c51162;
+    background-color: #c30a0a;
 }
 
 /* Animations */
