@@ -125,7 +125,6 @@ class TetrisController {
     if (!this.gameRunning) {
       this.setSelfActive();
       setTimeout(() => {
-        //this.tetris.reset();
         this.moveTile();
       }, 500);
 
@@ -145,7 +144,6 @@ class TetrisController {
     if (!this.aiRunning) {
       this.gameRunning = true;
       this.startGame();
-      //this.tetris.reset();
       this.moveTile();
       this.aiRunning = true;
       this.ai(this.tetris.getGame());
@@ -163,15 +161,9 @@ class TetrisController {
     this.tetris.moveDown();
     this.draw();
     if (this.isDisturbed() && this.isActive) {
-      if (this.disturbanceClearCounter >= REQUIRED_STEPS_TO_CLEAR) {
+      if (this.tetris.disturbanceClearCounter >= REQUIRED_LINES_TO_CLEAR) {
         this.clearDisturbance();
-        this.disturbanceClearCounter = 0;
-      } else {
-        this.disturbanceClearCounter++;
-        console.log(
-          "Working on clearing disturbance",
-          this.disturbanceClearCounter
-        );
+        this.tetris.disturbanceClearCounter = 0;
       }
     }
 

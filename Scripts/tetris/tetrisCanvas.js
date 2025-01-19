@@ -10,16 +10,16 @@ function pickBoardColour(controller) {
   if (controller.isDisturbed()) {
     switch (controller.state) {
       case "confused":
-        return "yellow";
+        return "#FFDE21"; // yellow
       default:
-        return "magenta";
+        return "#EA0A8F"; // magenta
     }
   }
   return controller.gameRunning
-    ? "white"
+    ? "#FFFFFF"
     : controller.aiRunning
-    ? "lightgrey"
-    : "grey";
+    ? "#A9A9A9"
+    : "#3F3F3F";
 }
 
 class StandardTetrisCanvas {
@@ -57,12 +57,12 @@ class StandardTetrisCanvas {
     window.addEventListener("resize", resizeGame);
   }
 
-  drawBoard(rowsBelow, game, bgColor = "pink", state) {
+  drawBoard(rowsBelow, game, bgColor = "#FFC0CB", state) {
     this.ctx.canvas.height = this.heightPixels;
     this.ctx.canvas.width = this.widthPixels;
 
     //clearing the canvas
-    this.ctx.fillStyle = bgColor;
+    this.ctx.fillStyle = bgColor + "99";
     this.ctx.fillRect(0, 0, this.widthPixels, this.heightPixels);
 
     //drawing the grid
