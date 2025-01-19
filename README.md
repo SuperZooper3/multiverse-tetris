@@ -2,8 +2,6 @@
 
 Our uOttaHack 7 project!
 
-![Multiverse Tetris with 6 boards](image.png)
-
 ## 👾 The Game
 
 Welcome to your first day at Tetris Traffic Control! Your job is to manage the traffic of Tetris blocks as they fall from the sky.
@@ -19,6 +17,8 @@ Play the game [here](https://superzooper3.github.io/multiverse-tetris/).
 It's all an analogy for modern air traffic control systems where AI and automation play a significant role. Just as in Tetris Traffic Control, air traffic controllers must manage complex situations and make critical decisions while AI handles the routine tasks.
 
 The game is a fun way to explore the challenges of automation and the importance of **human oversight to handle unforeseen** circumstances.
+
+![Multiverse Tetris with 6 boards](image.png)
 
 ## ⚙️ Features
 
