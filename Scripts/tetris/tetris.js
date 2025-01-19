@@ -189,6 +189,8 @@ class Tetris {
       this.moveAllDown(rowsToDelete[i - 1]);
     }
 
+    this.multiverseController.points += score;
+
     return true;
   }
 
