@@ -28,6 +28,6 @@ body {
 }
 
 #me {
-	background-color: blue;
+	/* background-color: blue; */
 	flex: 1;
 }

@@ -66,4 +66,4 @@ class MultiverseController {
     }
   }
 
-const controller = new MultiverseController(5);
+const controller = new MultiverseController(6);

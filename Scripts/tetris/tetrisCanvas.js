@@ -20,7 +20,7 @@ function pickBoardColour(controller) {
 }
 
 class StandardTetrisCanvas {
-    constructor(boardID, lineHeight, width = 20, height = 22, windowWidth = window.innerWidth, windowHeight = window.innerHeight){
+    constructor(boardID, lineHeight, width = 20, height = 22, windowWidth = 800, windowHeight = 800){
         this.boardID = boardID;
         this.cvs = document.getElementById(`tetris-${boardID}`);
         this.ctx = this.cvs.getContext("2d");
