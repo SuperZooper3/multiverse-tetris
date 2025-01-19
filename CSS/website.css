@@ -1,4 +1,6 @@
-/* Base styles */
+* {
+    font-family: 'Pixelify Sans', sans-serif; /* Default font family */
+}
 body {
     margin: 0;
     padding: 0;
@@ -18,10 +20,8 @@ header {
 }
 
 .header {
-    font-family: Helvetica, sans-serif;
     color: whitesmoke;
     margin: 0;
-	font-family: 'Pixelify Sans', sans-serif !important;
 }
 
 /* Game layout */
@@ -68,7 +68,7 @@ header {
 }
 
 .game-over-text {
-    font-family: 'Russo One', sans-serif;
+   
     font-size: 4rem;
     margin: 0 0 30px 0;
     color: #c30a0a;
