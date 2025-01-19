@@ -1,11 +1,13 @@
  class TetrisController {
-    constructor(id, canvas) {
+    constructor(id, multiverseController) {
+        this.multiverseController = multiverseController;
         this.boardID = id;
         this.lineHeight = 1;
         this.gameRunning = false;
         this.aiRunning = false;
         this.gameInterval = null;
         this.tilesCleared = 0;
+        this.isActive = null;
         this.tetrisCanvas = null;
         this.tetris = null;
         this.setup();
@@ -22,13 +24,10 @@
 
         document.addEventListener("keydown", (event) => this.keyPress(event));
     }
-
     setBig() {
-        
         this.tetrisCanvas = new TetrisCanvas(this.boardID, this.lineHeight);
     }
     setMini() {
-        
         this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
     }
 
@@ -83,6 +82,8 @@
 
     startGame() {
         if (!this.gameRunning) {
+            this.multiverseController.removeActive();
+            this.multiverseController.activeBoard = this.boardID;
             this.setBig();
             this.tilesCleared = 0;
             setTimeout(() => {
@@ -184,5 +185,21 @@
                 }
             }
         }, 10 * (loop + moves.length));
+    }
+    getState() {
+        // Determines the state of the board
+        if (!this.tetris) {
+            return "unknown"; // The game hasn't been initialized properly
+        }
+
+        if (!this.gameRunning) {
+            return "normal"; // Game is not running
+        }
+
+        if (this.aiRunning) {
+            return "disturbed"; // AI is running, indicating a potential disturbance
+        }
+
+        return "normal"; // Default state
     }
 }
