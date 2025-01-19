@@ -1,8 +1,8 @@
 class TetrisObject {
   constructor() {
     this.currentBag = [];
-    this.currentOptions = [1, 2, 3, 4];
-    this.unusedOptions = [5, 6, 7];
+    this.currentOptions = [1, 2, 3];
+    this.unusedOptions = [4, 5, 6, 7];
   }
 
   randomGenerator() {
