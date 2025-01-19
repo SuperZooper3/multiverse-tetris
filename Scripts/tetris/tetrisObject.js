@@ -13,6 +13,12 @@ class TetrisObject {
     return this.currentBag.pop();
   }
 
+  addUnusedOption() {
+    let addedOption = this.unusedOptions.pop();
+    this.currentOptions.push(addedOption);
+    this.currentBag = [addedOption]; // force the next object to be the added option
+  }
+
   getObject(objectNumber) {
     let randomNumber;
     if (objectNumber == 0) {
