@@ -55,7 +55,6 @@ class MultiverseController {
     this.disturbance = false;
     this.boards.forEach((board, index) => {
       let state = board.state;
-
       if (state !== "normal") {
         this.disturbance = true;
         console.log(`Board ${index} is disturbed.`);
@@ -63,8 +62,19 @@ class MultiverseController {
         console.log(`Board ${index} is normal.`);
       }
     });
-
     return this.disturbance;
+  }
+
+  countActiveBoards() {
+    const activeCount = Array.from(this.boardStates.values())
+      .filter(state => state === "active")
+      .length;
+    return activeCount;
+  }
+
+  logActiveBoards() {
+    const activeCount = this.countActiveBoards();
+    console.log("Number of Active Boards:", activeCount);
   }
 }
 

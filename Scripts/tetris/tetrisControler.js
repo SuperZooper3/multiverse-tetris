@@ -60,33 +60,33 @@ class TetrisController {
     const keyPressed = event;
     switch (keyPressed) {
       case 1:
-      case 65:
-      case 37:
+      case 65: // a
+      case 37: // left
         this.tetris.moveLeft();
         break;
       case 2:
-      case 68:
-      case 39:
+      case 68: // d
+      case 39: // right
         this.tetris.moveRight();
         break;
       case 4:
-      case 83:
-      case 40:
+      case 83: // s
+      case 40: // down
         this.tetris.moveDown();
         break;
       case 5:
-      case 65:
-      case 32:
-        this.tetris.swapHold();
+      case 32: // space
+        this.tetris.dropPiece();
         break;
-      case 3:
-      case 87:
-      case 38:
+      case 3: // cancel
+      case 87: // w
+      case 38: // up
         this.tetris.rotate();
         break;
       case 6:
-      case 13:
-        this.tetris.dropPiece();
+      case 13: // enter
+      case 67: // c
+        this.tetris.swapHold();
         break;
       case 7:
         this.ai(this.tetris.getGame());
