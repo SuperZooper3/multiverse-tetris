@@ -1,6 +1,6 @@
 const REQUIRED_STEPS_TO_CLEAR = 10;
 const DISTURBANCE_MIN_TIME = 500;
-const DISTURBANCE_MAX_TIME = 1000;
+const DISTURBANCE_MAX_TIME = 3000;
 
 function chooseDisturbanceCountdown() {
     return Math.floor(Math.random() * (DISTURBANCE_MAX_TIME - DISTURBANCE_MIN_TIME) + DISTURBANCE_MIN_TIME);
@@ -19,7 +19,7 @@ class TetrisController {
         this.tetrisCanvas = null;
         this.tetris = null;
         this.state = "normal";
-        this.disturbanceCountdown = Math.floor(Math.random() * DISTURBANCE_MAX_TIME);
+        this.disturbanceCountdown = chooseDisturbanceCountdown();
         this.disturbanceClearCounter = 0;
         this.setup();
         this.startAI();
@@ -240,7 +240,7 @@ class TetrisController {
 
     clearDisturbance() {
         this.state = "normal";
-        this.disturbanceCountdown = Math.floor(Math.random() * DISTURBANCE_MAX_TIME); 
+        this.disturbanceCountdown = chooseDisturbanceCountdown();
         console.log("Cleared disturbance");
     }
 
