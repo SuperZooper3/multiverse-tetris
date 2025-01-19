@@ -54,7 +54,6 @@ class aiTetrus {
       case 5:
         this.aiSwapHold();
         return true;
-        break;
       case 3:
         if (this.aiRotate(cObject)) {
           return true;

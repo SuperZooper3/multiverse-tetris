@@ -84,7 +84,7 @@ class TetrisController {
         this.tetris.rotate();
         break;
       case 6:
-      case 13: // enter
+      case 16: // shift
       case 67: // c
         this.tetris.swapHold();
         break;
@@ -167,6 +167,7 @@ class TetrisController {
     if (!this.tetris.canFall()) {
       this.multiverseController.tilesCleared++;
       if (this.tetris.createObject(0) === false) {
+        showGameOver(this.multiverseController.points);
         this.gameRunning = false;
         this.aiRunning = false;
         clearInterval(this.gameInterval);
@@ -191,14 +192,14 @@ class TetrisController {
         let tetrus = new aiTetrus(copyBoard, copyCurrentObject, copyHoldObject);
         let result = tetrus.placeOneObject();
         if (result === false) {
-          // game over logic
+          showGameOver(this.multiverseController.points);
         } else if (result[1].length > 0) {
           if (result[4]) {
             this.tetris.swapHold();
           }
           this.takeMoves(result[1]);
         } else {
-          // game over logic
+          showGameOver(this.multiverseController.points);
         }
       }
     }

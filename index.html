@@ -13,6 +13,18 @@
       <div class="thing" id="me"></div>
     </main>
 
+    <div class="game-over-container" id="gameOverScreen" style="display: none">
+      <div class="game-over-content">
+        <h1 class="game-over-text">Game Over</h1>
+        <p class="score-text" id="finalScore">Your Score: 0</p>
+        <button class="restart-btn" onclick="restartGame()">
+          Restart Game
+        </button>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="Scripts/tetris/gameOver.js"></script>
     <script src="Scripts/tetris/aiTetris.js"></script>
     <script src="Scripts/tetris/tetrisBox.js"></script>
     <script src="Scripts/tetris/tetrisObject.js"></script>
@@ -22,5 +34,6 @@
     <script src="Scripts/tetris/tetrisControler.js"></script>
     <script src="Scripts/tetris/multiverseController.js"></script>
     <script src="Scripts/tetris/finally.js"></script>
+    <script src="Scripts/tetris/gameover.js"></script>
   </body>
 </html>
