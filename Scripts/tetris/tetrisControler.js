@@ -170,11 +170,10 @@ class TetrisController {
       }
     }
 
-
-
     if (!this.tetris.checkCurrent()) {
       this.multiverseController.tilesCleared++;
       if (this.tetris.createObject(0) === false) {
+        console.log("Game over");
         this.gameRunning = false;
         this.aiRunning = false;
         clearInterval(this.gameInterval);
