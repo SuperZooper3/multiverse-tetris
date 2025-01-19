@@ -115,13 +115,13 @@ class StandardTetrisCanvas {
     return true;
   }
 
-  drawBox(x, y, color, size, lineSize) {
+  drawBox(x, y, color, size, lineSize, border = "black") {
     // draw the box itself
     this.ctx.fillStyle = color;
     this.ctx.fillRect(x, y, size, size);
 
-    // draw a black border around the box
-    this.ctx.fillStyle = "black";
+    // draw border around the box
+    this.ctx.fillStyle = border;
     this.ctx.fillRect(x, y, size, lineSize);
     this.ctx.fillRect(x, y, lineSize, size);
     this.ctx.fillRect(x, y + size, size, lineSize);
@@ -143,7 +143,8 @@ class StandardTetrisCanvas {
         this.offsetTop + row * (boxSize + this.lineHeight) + this.lineHeight,
         "rgb(229, 229, 229)",
         boxSize,
-        this.lineHeight + 2
+        this.lineHeight + 2,
+        "#C4C4C4"
       );
     }
 
@@ -168,7 +169,7 @@ class StandardTetrisCanvas {
   // used to draw the next object and the hold object
   drawUIBlock(object, x, y) {
     this.ctx.lineWidth = 3;
-    this.ctx.strokeStyle = "rgba(0,0,0,1)";
+    this.ctx.strokeStyle = "rgba(0,0,0,1)"; // box around "next" and "hold"
     this.ctx.strokeRect(x, y, boxSize * 5, boxSize * 4);
     let blockType = object[0].blockType;
     let r;
