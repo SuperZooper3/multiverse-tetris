@@ -220,7 +220,7 @@ class TetrisCanvas extends StandardTetrisCanvas {
 
   drawScore(score) {
     this.ctx.fillStyle = "black";
-    this.ctx.font = boxSize * 1.25 + "px VT323";
+    this.ctx.font = boxSize * 1.25 + "px Pixelify Sans";
     const zeroPad = (num, places) => String(num).padStart(places, "0");
     this.ctx.fillText(
       zeroPad(score, 7),
@@ -231,7 +231,7 @@ class TetrisCanvas extends StandardTetrisCanvas {
 
   drawLabels() {
     this.ctx.fillStyle = "black";
-    this.ctx.font = boxSize * 1.25 + "px VT323";
+    this.ctx.font = boxSize * 1.25 + "px Pixelify Sans";
     this.ctx.textAlign = "center";
     this.ctx.fillText(
       "Next",

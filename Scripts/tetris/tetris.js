@@ -192,7 +192,6 @@ class Tetris {
       score = 1200;
     }
     this.multiverseController.points += score;
-    console.log(this.multiverseController.points);
     return true;
   }
 
