@@ -101,7 +101,7 @@ class StoryController {
         setTimeout(() => {
             multiverseController.addBoard();
         }, 1000);
-        this.setStoryText("You're in the big leagues now! You've been promoted to cheif Tetris Traffic Controller! Make us proud!");
+        this.setStoryText("You're in the big leagues now! You've been promoted to chief Tetris Traffic Controller! Make us proud!");
     }
 }
 
