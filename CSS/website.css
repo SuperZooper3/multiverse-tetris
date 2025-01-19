@@ -1,6 +1,7 @@
 body {
 	top: 0;
 	margin: 0;
+	background-image: url("../public/background.png");
 	background-color: #141414;
 	display: flex;
 	flex-direction: column;
@@ -10,6 +11,7 @@ body {
 .header {
 	font-family: Helvetica, sans-serif;
 	color: whitesmoke;
+	text-shadow: #000000 1px 0 10px;
 }
 
 .wrapper {
