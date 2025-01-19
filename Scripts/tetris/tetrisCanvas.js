@@ -4,7 +4,7 @@ const boxSize = 40 * pixleRatio;
 const lineHeight = 1;
 
 const cyclone = new Image();
-cyclone.src = "../Assets/cyclone.svg";
+cyclone.src = "./Assets/cyclone.svg";
 
 function pickBoardColour(controller) {
   if (controller.isDisturbed()) {
