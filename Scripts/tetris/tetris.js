@@ -213,8 +213,8 @@ class Tetris {
 
       // if piece is at the bottom of the board
       if (row >= 19) {
-        return false
-      };
+        return false;
+      }
 
       // if there's a piece below the current one
       if (
@@ -324,16 +324,16 @@ class Tetris {
     } else if (box.blockType == 3) {
       if (box.rotation < 2) {
         if (box.row > 0 && box.column < 8) {
-          let peice = box.rotation + 2;
+          let piece = box.rotation + 2;
           let spot = column + box.rotation + 1 + 10 * (row + box.rotation - 1);
           if (this.gameBoard[spot].box == undefined) {
             let oldspot =
-              this.currentObject[peice].row * 10 +
-              this.currentObject[peice].column;
+              this.currentObject[piece].row * 10 +
+              this.currentObject[piece].column;
             this.gameBoard[oldspot].box = undefined;
-            this.currentObject[peice].row = Math.floor(spot / 10);
-            this.currentObject[peice].column = spot % 10;
-            this.gameBoard[spot].box = this.currentObject[peice];
+            this.currentObject[piece].row = Math.floor(spot / 10);
+            this.currentObject[piece].column = spot % 10;
+            this.gameBoard[spot].box = this.currentObject[piece];
             box.rotation = (box.rotation + 1) % 4;
           }
         }
@@ -473,62 +473,62 @@ class Tetris {
     }
   }
 
-  swap2(box, spot1, spot2, peice1, peice2) {
+  swap2(box, spot1, spot2, piece1, piece2) {
     if (
       this.gameBoard[spot1].box == undefined &&
       this.gameBoard[spot2].box == undefined
     ) {
       let oldspot1 =
-        this.currentObject[peice1].row * 10 + this.currentObject[peice1].column;
+        this.currentObject[piece1].row * 10 + this.currentObject[piece1].column;
       let oldspot2 =
-        this.currentObject[peice2].row * 10 + this.currentObject[peice2].column;
+        this.currentObject[piece2].row * 10 + this.currentObject[piece2].column;
 
       this.gameBoard[oldspot1].box = undefined;
       this.gameBoard[oldspot2].box = undefined;
 
-      this.currentObject[peice1].row = Math.floor(spot1 / 10);
-      this.currentObject[peice1].column = spot1 % 10;
+      this.currentObject[piece1].row = Math.floor(spot1 / 10);
+      this.currentObject[piece1].column = spot1 % 10;
 
-      this.currentObject[peice2].row = Math.floor(spot2 / 10);
-      this.currentObject[peice2].column = spot2 % 10;
+      this.currentObject[piece2].row = Math.floor(spot2 / 10);
+      this.currentObject[piece2].column = spot2 % 10;
 
-      this.gameBoard[spot1].box = this.currentObject[peice1];
-      this.gameBoard[spot2].box = this.currentObject[peice2];
+      this.gameBoard[spot1].box = this.currentObject[piece1];
+      this.gameBoard[spot2].box = this.currentObject[piece2];
 
       box.rotation = (box.rotation + 1) % 4;
     }
   }
 
-  swap3(box, spot1, spot3, spot4, peice1, peice3, peice4) {
+  swap3(box, spot1, spot3, spot4, piece1, piece3, piece4) {
     if (
       this.gameBoard[spot1].box == undefined &&
       this.gameBoard[spot3].box == undefined &&
       this.gameBoard[spot4].box == undefined
     ) {
       let oldspot1 =
-        this.currentObject[peice1].row * 10 + this.currentObject[peice1].column;
+        this.currentObject[piece1].row * 10 + this.currentObject[piece1].column;
       let oldspot3 =
-        this.currentObject[peice3].row * 10 + this.currentObject[peice3].column;
+        this.currentObject[piece3].row * 10 + this.currentObject[piece3].column;
       let oldspot4 =
-        this.currentObject[peice4].row * 10 + this.currentObject[peice4].column;
+        this.currentObject[piece4].row * 10 + this.currentObject[piece4].column;
 
       this.gameBoard[oldspot1].box = undefined;
 
       this.gameBoard[oldspot3].box = undefined;
       this.gameBoard[oldspot4].box = undefined;
 
-      this.currentObject[peice1].row = Math.floor(spot1 / 10);
-      this.currentObject[peice1].column = spot1 % 10;
+      this.currentObject[piece1].row = Math.floor(spot1 / 10);
+      this.currentObject[piece1].column = spot1 % 10;
 
-      this.currentObject[peice3].row = Math.floor(spot3 / 10);
-      this.currentObject[peice3].column = spot3 % 10;
+      this.currentObject[piece3].row = Math.floor(spot3 / 10);
+      this.currentObject[piece3].column = spot3 % 10;
 
-      this.currentObject[peice4].row = Math.floor(spot4 / 10);
-      this.currentObject[peice4].column = spot4 % 10;
+      this.currentObject[piece4].row = Math.floor(spot4 / 10);
+      this.currentObject[piece4].column = spot4 % 10;
 
-      this.gameBoard[spot1].box = this.currentObject[peice1];
-      this.gameBoard[spot3].box = this.currentObject[peice3];
-      this.gameBoard[spot4].box = this.currentObject[peice4];
+      this.gameBoard[spot1].box = this.currentObject[piece1];
+      this.gameBoard[spot3].box = this.currentObject[piece3];
+      this.gameBoard[spot4].box = this.currentObject[piece4];
 
       box.rotation = (box.rotation + 1) % 4;
     }
