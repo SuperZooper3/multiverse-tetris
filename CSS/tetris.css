@@ -1,16 +1,16 @@
+.buttons {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+
 .tetrisButton {
 	font-family: monospace;
 	font-size: 12px;
 	padding: 8px 12px;
-	margin: 4px 0;
 }
 
 .tetrisButton:hover{
 	text-decoration: underline !important;
 	cursor: pointer;
-}
-
-#tetris {
-	border: solid 2px black;
-	position: relative;
 }
