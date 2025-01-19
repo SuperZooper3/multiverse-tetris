@@ -23,7 +23,7 @@ class StandardTetrisCanvas {
   constructor(
     boardID,
     lineHeight,
-    width = 17.5,
+    width = 20,
     height = 22,
     windowWidth = 800,
     windowHeight = 800
@@ -214,7 +214,7 @@ class TetrisCanvas extends StandardTetrisCanvas {
     this.drawHold(game[2]);
     this.drawNext(game[3]);
     this.drawLabels();
-    this.drawScore(tetrisController.multiverseController.points);
+    this.drawScore(tetrisController.multiverseController.tilesCleared);
     return true;
   }
 

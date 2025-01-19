@@ -5,27 +5,14 @@
     <link rel="stylesheet" href="CSS/website.css" />
     <link rel="stylesheet" href="CSS/tetris.css" />
     <title>Tetris</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <header>
-      <h1 class="header">👾Multiverse Tetris👾</h1>
-    </header>
-    
+    <h1 class="header">👾Multiverse Tetris👾</h1>
     <main class="wrapper">
       <div class="gameHolder"></div>
       <div class="thing" id="me"></div>
     </main>
 
-    <div class="game-over-container" id="gameOverScreen" style="display: none;">
-      <div class="game-over-content">
-        <h1 class="game-over-text">Game Over</h1>
-        <p class="score-text" id="finalScore">Your Score: 0</p>
-        <button class="restart-btn" onclick="restartGame()">Restart Game</button>
-      </div>
-    </div>
-
-    <!-- Scripts -->
     <script src="Scripts/tetris/aiTetris.js"></script>
     <script src="Scripts/tetris/tetrisBox.js"></script>
     <script src="Scripts/tetris/tetrisObject.js"></script>
@@ -35,29 +22,5 @@
     <script src="Scripts/tetris/tetrisControler.js"></script>
     <script src="Scripts/tetris/multiverseController.js"></script>
     <script src="Scripts/tetris/finally.js"></script>
-    <script>
-      function showGameOver(score) {
-        document.getElementById('finalScore').textContent = `Your Score: ${score}`;
-        document.getElementById('gameOverScreen').style.display = 'flex';
-      }
-
-      function restartGame() {
-        document.getElementById('gameOverScreen').style.display = 'none';
-        console.log('Game Restarted');
-        location.reload(); // Reloads the current page
-      }
-
-
-      function checkGameOverCondition() {
-        const gameOver = true; 
-        const finalScore = 123; 
-        if (gameOver) {
-          showGameOver(finalScore);
-          console.log('Game Over');
-        }
-      }
-
-      setTimeout(checkGameOverCondition, 60000);
-    </script>
   </body>
 </html>
