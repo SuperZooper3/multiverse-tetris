@@ -98,6 +98,9 @@ class TetrisController {
   actuallyGoActive() {
     console.log(`focus-${this.boardID}`);
     this.bigCanvas = new TetrisCanvas(`focus-${this.boardID}`, this.lineHeight);
+    this.aiRunning = false;
+    this.isActive = true;
+    this.gameRunning = true;
     console.log("Actually going active");
   }
 

@@ -1,14 +1,16 @@
 class TetrisObject {
   constructor() {
-    this.bag = [];
+    this.currentBag = [];
+    this.currentOptions = [1, 2, 3];
+    this.unusedOptions = [4, 5, 6, 7];
   }
 
   randomGenerator() {
-    if (this.bag.length === 0) {
-      this.bag = [1, 2, 3, 4, 5, 6, 7];
-      this.bag.sort(() => Math.random() - 0.5);
+    if (this.currentBag.length === 0) {
+      this.currentBag = JSON.parse(JSON.stringify(this.currentOptions));
+      this.currentBag.sort(() => Math.random() - 0.5);
     }
-    return this.bag.pop();
+    return this.currentBag.pop();
   }
 
   getObject(objectNumber) {
