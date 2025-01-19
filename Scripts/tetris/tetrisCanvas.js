@@ -119,18 +119,21 @@ class StandardTetrisCanvas {
     return true;
   }
 
-  drawBox(x, y, color, size, lineSize, border = "black") {
-    // draw the box itself
+  drawBox(x, y, color, size, lineSize, effectWidth = 7) {
+    // fill the box
     this.ctx.fillStyle = color;
     this.ctx.fillRect(x, y, size, size);
 
-    // draw border around the box
-    this.ctx.fillStyle = border;
-    this.ctx.fillRect(x, y, size, lineSize);
-    this.ctx.fillRect(x, y, lineSize, size);
-    this.ctx.fillRect(x, y + size, size, lineSize);
-    this.ctx.fillRect(x + size, y, lineSize, size);
-  }
+    // bright top and left edges
+    this.ctx.fillStyle = "white";
+    this.ctx.fillRect(x, y, size, effectWidth);
+    this.ctx.fillRect(x, y, effectWidth, size);
+
+    // darker bottom and right edges
+    this.ctx.fillStyle = "rgba(0,0,0,0.5)";
+    this.ctx.fillRect(x, y + size - effectWidth, size, effectWidth);
+    this.ctx.fillRect(x + size - effectWidth, y, effectWidth, size);
+}
 
   // draw all the boxes
   drawBoxes(rowsBelow, gameBoard, currentObject) {
