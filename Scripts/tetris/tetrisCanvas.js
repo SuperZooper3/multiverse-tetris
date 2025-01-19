@@ -39,7 +39,6 @@ class StandardTetrisCanvas {
         //clearing the canvas
         this.ctx.fillStyle = bgColor;
         this.ctx.fillRect(0,0,this.widthPixels, this.heightPixels);
-        console.log(bgColor)
 
         //drawing the grid
         this.ctx.fillStyle = "grey";
@@ -144,7 +143,7 @@ class TetrisCanvas extends StandardTetrisCanvas{
     draw(tetrisController){
         let tetris = tetrisController.tetris;
         let game = tetris.getGame();
-        
+
         super.drawBoard(
             tetrisController.tetris.predictLanding(), 
             tetrisController.tetris.getGame(), 

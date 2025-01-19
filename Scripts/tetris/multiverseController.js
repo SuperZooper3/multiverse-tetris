@@ -34,6 +34,22 @@ class MultiverseController {
         }
     }
     
+    activeDisturbance() {
+        this.disturbance = false;
+        this.boards.forEach((board, index) => {
+            let state = board.getState();
+
+            if (state === "disturbed") {
+                this.disturbance = true;
+                console.log(`Board ${index} is disturbed.`);
+            } else {
+                console.log(`Board ${index} is normal.`);
+            }
+        });
+
+        return this.disturbance;
+    }
 }
 
-new MultiverseController(3);
+const controller = new MultiverseController(3);
+controller.activeDisturbance();
