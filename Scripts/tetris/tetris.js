@@ -1,5 +1,6 @@
 class Tetris {
-  constructor() {
+  constructor(multiverseController) {
+    this.multiverseController = multiverseController;
     this.currentObject = undefined;
     this.nextObject = undefined;
     this.holdObject = undefined;
@@ -189,6 +190,19 @@ class Tetris {
       this.moveAllDown(rowsToDelete[i - 1]);
     }
 
+    // calcutate the score that should be given for the number of cleared rows in real tetris
+    let score = 0;
+    if (rowsDeleted.length == 1) {
+      score = 40;
+    } else if (rowsDeleted.length == 2) {
+      score = 100;
+    } else if (rowsDeleted.length == 3) {
+      score = 300;
+    } else if (rowsDeleted.length == 4) {
+      score = 1200;
+    }
+    this.multiverseController.points += score;
+    console.log(this.multiverseController.points);
     return true;
   }
 
