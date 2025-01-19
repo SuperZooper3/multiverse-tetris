@@ -26,7 +26,6 @@ class TetrisController {
     this.tetris = null;
     this.state = "normal";
     this.disturbanceCountdown = chooseDisturbanceCountdown();
-    this.disturbanceClearCounter = 0;
     this.bigCanvas = null;
     this.setup();
   }
@@ -90,7 +89,7 @@ class TetrisController {
         this.tetris.rotate();
         break;
       case 6:
-      case 13: // enter
+      case 16: // shift
       case 67: // c
         this.tetris.swapHold();
         break;
@@ -195,7 +194,7 @@ class TetrisController {
         let tetrus = new aiTetrus(copyBoard, copyCurrentObject, copyHoldObject);
         let result = tetrus.placeOneObject();
         if (result === false) {
-            console.log("Game Over 2");
+          console.log("Game Over 2");
           showGameOver(this.multiverseController.points);
         } else if (result[1].length > 0) {
           if (result[4]) {
@@ -203,7 +202,7 @@ class TetrisController {
           }
           this.takeMoves(result[1]);
         } else {
-            console.log("Game Over 3");
+          console.log("Game Over 3");
           showGameOver(this.multiverseController.points);
         }
       }
