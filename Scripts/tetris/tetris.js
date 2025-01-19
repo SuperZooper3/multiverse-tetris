@@ -212,7 +212,9 @@ class Tetris {
       let column = this.currentObject[i].column;
 
       // if piece is at the bottom of the board
-      if (row >= 19) return false;
+      if (row >= 19) {
+        return false
+      };
 
       // if there's a piece below the current one
       if (
@@ -220,14 +222,16 @@ class Tetris {
         !this.currentObject.includes(
           this.gameBoard[(row + 1) * 10 + column].box
         )
-      )
+      ) {
+        // console.log("Stop 2, row: " + row + ", column: " + column);
         return false;
+      }
     }
-
     return true;
   }
 
   createObject(method) {
+    // console.log("Creating object");
     let object;
     if (method == 0) {
       let objects = this.tetrisObject.newObject(

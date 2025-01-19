@@ -6,7 +6,6 @@ class StoryController {
         this.storyProgress = 0;
         this.lastEventTime = Date.now();
         this.storyElement = $("#story-box");
-        console.log("StoryController created");
         this.checkForPoints();
         // add a listener for keyboard events to call check cheatcode
         $(document).on("keydown", (event) => {

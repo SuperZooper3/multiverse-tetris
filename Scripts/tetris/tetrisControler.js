@@ -1,5 +1,5 @@
 const REQUIRED_LINES_TO_CLEAR = 2;
-const DISTURBANCE_MIN_TIME = 30;
+const DISTURBANCE_MIN_TIME = 50;
 const DISTURBANCE_MAX_TIME = 100;
 const SOFT_DROP_POINTS = 1;
 const HARD_DROP_POINTS = 10;
@@ -10,7 +10,6 @@ function chooseDisturbanceCountdown() {
     Math.random() * (DISTURBANCE_MAX_TIME - DISTURBANCE_MIN_TIME) +
       DISTURBANCE_MIN_TIME
   );
-  console.log(`Countdown: ${countdown}`);
   return countdown;
 }
 class TetrisController {
@@ -103,12 +102,10 @@ class TetrisController {
   }
 
   actuallyGoActive() {
-    console.log(`focus-${this.boardID}`);
     this.bigCanvas = new TetrisCanvas(`focus-${this.boardID}`, this.lineHeight);
     this.aiRunning = false;
     this.isActive = true;
     this.gameRunning = true;
-    console.log("Actually going active");
   }
 
   setSelfActive() {
@@ -124,6 +121,7 @@ class TetrisController {
   }
 
   startGame() {
+    clearInterval(this.gameInterval);
     if (!this.gameRunning) {
       this.setSelfActive();
       setTimeout(() => {
@@ -254,6 +252,7 @@ class TetrisController {
         // pick a random disturbance from the array
         const disturbance =
           disturbances[Math.floor(Math.random() * disturbances.length)];
+        this.tetris.disturbanceLinesCleared = 0;
         disturbance.call(this);
       }
     }
@@ -267,7 +266,6 @@ class TetrisController {
   clearDisturbance() {
     this.state = "normal";
     this.disturbanceCountdown = chooseDisturbanceCountdown();
-    console.log("Cleared disturbance");
   }
 
   disturbanceConfusion() {

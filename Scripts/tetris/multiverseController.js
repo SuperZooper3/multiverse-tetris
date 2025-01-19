@@ -26,7 +26,7 @@ class MultiverseController {
     `);
 
     $(".gameHolder").append(tetrisContainer);
-    console.log("Created board with id: " + id);
+    // console.log("Created board with id: " + id);
     return new TetrisController(id, this);
   }
 
@@ -39,15 +39,14 @@ class MultiverseController {
     `);
 
     $("#me").html(tetrisContainer);
-    console.log("Created big board with id: " + id);
+    // console.log("Created big board with id: " + id);
   }
 
   setActive(boardID) {
     this.removeActive();
-    console.log("Setting active board to " + boardID);
+    // console.log("Setting active board to " + boardID);
     this.activeBoard = boardID;
     this.injectBigBoard(boardID);
-    console.log(this.boards);
     this.boards[boardID].actuallyGoActive();
   }
 

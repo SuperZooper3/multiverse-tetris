@@ -1,1 +1,0 @@
-controller.setActive(0);
