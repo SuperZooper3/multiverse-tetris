@@ -191,8 +191,8 @@ class TetrisController {
           ].box = undefined;
         }
 
-        let tetrus = new aiTetrus(copyBoard, copyCurrentObject, copyHoldObject);
-        let result = tetrus.placeOneObject();
+        let tetris = new aiTetris(copyBoard, copyCurrentObject, copyHoldObject);
+        let result = tetris.placeOneObject();
         if (result === false) {
           console.log("Game Over 2");
           showGameOver(this.multiverseController.points);
