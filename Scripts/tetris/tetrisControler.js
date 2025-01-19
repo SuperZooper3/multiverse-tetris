@@ -150,6 +150,16 @@ class TetrisController {
             }
         }
 
+        if (this.isDisturbed()) {
+            if (this.disturbanceClearCounter >= REQUIRED_STEPS_TO_CLEAR) {
+                this.clearDisturbance();
+                this.disturbanceClearCounter = 0;
+            } else {
+                this.disturbanceClearCounter++;
+                console.log("Working on clearing disturbance", this.disturbanceClearCounter);
+            }
+        }
+
         if (!this.tetris.checkCurrent()) {
             this.tilesCleared++;
             if (this.tetris.createObject(0) === false) {
