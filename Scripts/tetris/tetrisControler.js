@@ -31,8 +31,7 @@ class TetrisController {
         this.tetris = new Tetris();
         this.draw();
 
-        $(`#tetrisStart-${this.boardID}`).click(() =>  this.startGame());
-        $(`#tetrisAIStart-${this.boardID}`).click(() => this.startAI());
+        $(`#tetris-${this.boardID}`).click(() =>  this.startGame());
 
         document.addEventListener("keydown", (event) => this.keyPress(event));
     }

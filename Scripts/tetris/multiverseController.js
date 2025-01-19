@@ -15,10 +15,6 @@ class MultiverseController {
     let id = this.boards.length;
     let tetrisContainer = $(`
         <div id="tetrisContainer-${id}" class="thing">
-            <div class="buttons">
-                <button class="tetrisButton" id="tetrisStart-${id}">Set Active</button>
-                <button class="tetrisButton" id="tetrisAIStart-${id}">Manual Mode</button>    
-            </div>
             <canvas id="tetris-${id}"></canvas>
         </div>
     `);

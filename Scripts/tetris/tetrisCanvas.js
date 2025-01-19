@@ -73,8 +73,6 @@ class StandardTetrisCanvas {
         //drawing boxes
         this.drawBoxes(rowsBelow,game[0],game[1]);
 
-        //update the buttons to represent if the current game is in AI mode or not
-        $(`#tetrisAIStart-${this.boardID}`).text(aiRunning? "AI Mode" : "Manual Mode");
         return true;
     }
 
