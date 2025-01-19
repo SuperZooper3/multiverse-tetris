@@ -17,7 +17,7 @@ class TetrisController {
     this.gameRunning = false;
     this.aiRunning = false;
     this.gameInterval = null;
-    this.tilesCleared = 0;
+    multiverseController.tilesCleared = 0;
     this.isActive = null;
     this.tetrisCanvas = null;
     this.tetris = null;
@@ -118,7 +118,7 @@ class TetrisController {
   startGame() {
     if (!this.gameRunning) {
       this.setSelfActive();
-      this.tilesCleared = 0;
+      //this.tilesCleared = 0;
       setTimeout(() => {
         //this.tetris.reset();
         this.moveTile();
@@ -173,7 +173,7 @@ class TetrisController {
 
 
     if (!this.tetris.checkCurrent()) {
-      this.tilesCleared++;
+      this.multiverseController.tilesCleared++;
       if (this.tetris.createObject(0) === false) {
         this.gameRunning = false;
         this.aiRunning = false;
@@ -237,7 +237,7 @@ class TetrisController {
 
     setTimeout(() => {
       if (this.tetris.checkForRow()) {
-        this.tilesCleared++;
+        this.multiverseController.tilesCleared++;
         this.tetris.createObject(0);
         if (!this.gameRunning) {
           this.ai(this.tetris.getGame());
