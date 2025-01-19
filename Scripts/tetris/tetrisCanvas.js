@@ -4,8 +4,7 @@ const boxSize = 40 * pixleRatio;
 const lineHeight = 1;
 
 const cyclone = new Image();
-cyclone.src = '../Assets/cyclone.svg';
-
+cyclone.src = "../Assets/cyclone.svg";
 
 function pickBoardColour(controller) {
   if (controller.isDisturbed()) {
@@ -27,11 +26,10 @@ class StandardTetrisCanvas {
   constructor(
     boardID,
     lineHeight,
-    width = 20,
+    width = 17.5,
     height = 22,
     windowWidth = 800,
-    windowHeight = 800,
-
+    windowHeight = 800
   ) {
     this.boardID = boardID;
     this.cvs = document.getElementById(`tetris-${boardID}`);
@@ -114,7 +112,7 @@ class StandardTetrisCanvas {
 
     //draw the icons
     if (state === "confused") {
-        this.ctx.drawImage(cyclone, this.offsetLeft, this.offsetTop, 150, 150);
+      this.ctx.drawImage(cyclone, this.offsetLeft, this.offsetTop, 150, 150);
     }
     return true;
   }
@@ -133,7 +131,7 @@ class StandardTetrisCanvas {
     this.ctx.fillStyle = "rgba(0,0,0,0.5)";
     this.ctx.fillRect(x, y + size - effectWidth, size, effectWidth);
     this.ctx.fillRect(x + size - effectWidth, y, effectWidth, size);
-}
+  }
 
   // draw all the boxes
   drawBoxes(rowsBelow, gameBoard, currentObject) {
@@ -219,13 +217,13 @@ class TetrisCanvas extends StandardTetrisCanvas {
       tetrisController.tetris.predictLanding(),
       tetrisController.tetris.getGame(),
       pickBoardColour(tetrisController),
-      tetrisController.state,
+      tetrisController.state
     );
 
     this.drawHold(game[2]);
     this.drawNext(game[3]);
     this.drawLabels();
-    this.drawScore(tetrisController.multiverseController.tilesCleared);
+    this.drawScore(tetrisController.multiverseController.points);
     return true;
   }
 

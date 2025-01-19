@@ -2,10 +2,18 @@ class MultiverseController {
   constructor(numberOfBoards) {
     this.numberOfBoards = numberOfBoards;
     this.boards = [];
-    this.activeBoard = 0;
-    this.tilesCleared = 0;
+    this.activeBoard = null;
+    this.points = 0;
     for (let i = 0; i < this.numberOfBoards; i++) {
       this.boards.push(this.createBoard());
+    }
+
+    for (let i = 0; i < this.numberOfBoards; i++) {
+      if (i !== 0) {
+        this.boards[i].startAI();
+      } else {
+        this.boards[i].startGame();
+      }
     }
   }
 
@@ -35,12 +43,6 @@ class MultiverseController {
   }
 
   setActive(boardID) {
-    if (this.activeBoard == boardID) {
-      this.injectBigBoard(boardID);
-      console.log(this.boards);
-      this.boards[boardID].actuallyGoActive();
-      return;
-    }
     this.removeActive();
     console.log("Setting active board to " + boardID);
     this.activeBoard = boardID;
@@ -50,8 +52,9 @@ class MultiverseController {
   }
 
   removeActive() {
-    if (1) {
+    if (this.activeBoard !== null) {
       this.boards[this.activeBoard].deactivate();
+      this.activeBoard = null;
     }
   }
 
@@ -68,19 +71,6 @@ class MultiverseController {
     });
     return this.disturbance;
   }
-  /*
-  countActiveBoards() {
-    const activeCount = Array.from(this.boardStates.values())
-      .filter(state => state === "active")
-      .length;
-    return activeCount;
-  }
-
-  logActiveBoards() {
-    const activeCount = this.countActiveBoards();
-    console.log("Number of Active Boards:", activeCount);
-  }
-  */
 }
 
-const controller = new MultiverseController(6);
+const multiverseController = new MultiverseController(6);
