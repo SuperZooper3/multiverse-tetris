@@ -51,7 +51,7 @@ class TetrisController {
     if ([40, 39, 38, 37, 13, 32].includes(keyPressed)) {
       event.preventDefault();
     }
-    if (this.gameRunning && !this.aiRunning) {
+    if (this.gameRunning && !this.aiRunning && this.isActive) {
       this.moveTile(keyPressed);
     }
   }
