@@ -23,7 +23,7 @@ class StandardTetrisCanvas {
   constructor(
     boardID,
     lineHeight,
-    width = 20,
+    width = 17.5,
     height = 22,
     windowWidth = 800,
     windowHeight = 800

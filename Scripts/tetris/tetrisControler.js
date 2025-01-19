@@ -3,6 +3,7 @@ const DISTURBANCE_MIN_TIME = 300;
 const DISTURBANCE_MAX_TIME = 1000;
 const SOFT_DROP_POINTS = 1;
 const HARD_DROP_POINTS = 10;
+const AI_DELAY = 50;
 
 function chooseDisturbanceCountdown() {
   return Math.floor(
@@ -31,7 +32,7 @@ class TetrisController {
 
   setup() {
     this.tetrisCanvas = new TetrisMiniCanvas(this.boardID, this.lineHeight);
-    this.tetris = new Tetris();
+    this.tetris = new Tetris(this.multiverseController);
     this.draw();
 
     $(`#tetris-${this.boardID}`).click(() => this.startGame());
@@ -79,6 +80,7 @@ class TetrisController {
         break;
       case 5:
       case 32: // space
+        this.multiverseController.points += HARD_DROP_POINTS;
         this.tetris.dropPiece();
         break;
       case 3: // cancel
@@ -233,7 +235,7 @@ class TetrisController {
     for (let i = 0; i < loop; i++) {
       setTimeout(() => {
         this.moveTile(4);
-      }, 10 * (i + moves.length));
+      }, AI_DELAY * (i + moves.length));
     }
 
     setTimeout(() => {
@@ -243,7 +245,7 @@ class TetrisController {
           this.ai(this.tetris.getGame());
         }
       }
-    }, 10 * (loop + moves.length));
+    }, AI_DELAY * (loop + moves.length));
   }
 
   checkState() {
