@@ -102,7 +102,7 @@ class Tetris {
       }
     }
     this.checkForRow();
-    this.checkCurrent();
+    this.canFall();
   }
 
   moveAllDown(row) {
@@ -154,9 +154,7 @@ class Tetris {
     for (let i = 199; i >= 0; i--) {
       for (let j = this.currentObject.length - 1; j >= 0; j--) {
         if (this.gameBoard[i].box == this.currentObject[j]) {
-          if (this.checkCurrent()) {
-            counter--;
-          }
+          if (this.canFall()) counter--;
         }
       }
       if (this.gameBoard[i].box != undefined) {
@@ -182,12 +180,16 @@ class Tetris {
     return true;
   }
 
-  //check to see if the current peice being moves can fall farther
-  checkCurrent() {
+  // check if the current piece can fall farther
+  canFall() {
     for (let i = 0; i < this.currentObject.length; i++) {
       let row = this.currentObject[i].row;
       let column = this.currentObject[i].column;
+
+      // if piece is at the bottom of the board
       if (row >= 19) return false;
+
+      // if there's a piece below the current one
       if (
         this.gameBoard[(row + 1) * 10 + column].box != undefined &&
         !this.currentObject.includes(
@@ -196,6 +198,7 @@ class Tetris {
       )
         return false;
     }
+
     return true;
   }
 
