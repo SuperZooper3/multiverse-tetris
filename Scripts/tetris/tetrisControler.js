@@ -1,4 +1,4 @@
-const REQUIRED_STEPS_TO_CLEAR = 10;
+const REQUIRED_LINES_TO_CLEAR = 5;
 const DISTURBANCE_MIN_TIME = 10;
 const DISTURBANCE_MAX_TIME = 50;
 
@@ -8,6 +8,7 @@ function chooseDisturbanceCountdown() {
       DISTURBANCE_MIN_TIME
   );
 }
+
 class TetrisController {
   constructor(id, multiverseController) {
     this.multiverseController = multiverseController;
@@ -23,7 +24,6 @@ class TetrisController {
     this.tetris = null;
     this.state = "normal";
     this.disturbanceCountdown = chooseDisturbanceCountdown();
-    this.disturbanceClearCounter = 0;
     this.bigCanvas = null;
     this.setup();
     this.startAI();
@@ -118,9 +118,7 @@ class TetrisController {
   startGame() {
     if (!this.gameRunning) {
       this.setSelfActive();
-      //this.tilesCleared = 0;
       setTimeout(() => {
-        //this.tetris.reset();
         this.moveTile();
       }, 500);
 
@@ -140,10 +138,8 @@ class TetrisController {
     if (!this.aiRunning) {
       this.gameRunning = true;
       this.startGame();
-      //this.tetris.reset();
       this.moveTile();
       this.aiRunning = true;
-      //this.tilesCleared = 0;
       this.ai(this.tetris.getGame());
     }
   }
@@ -156,18 +152,16 @@ class TetrisController {
   }
 
   runGame() {
+    // moves tetris piece down
     this.moveTile(4);
-    if (this.isDisturbed()) {
-      if (this.disturbanceClearCounter >= REQUIRED_STEPS_TO_CLEAR) {
-        this.clearDisturbance();
-        this.disturbanceClearCounter = 0;
-      } else {
-        this.disturbanceClearCounter++;
-        console.log(
-          "Working on clearing disturbance",
-          this.disturbanceClearCounter
-        );
-      }
+
+    // clear disturbance if enough lines have been cleared
+    if (
+      this.isDisturbed() &&
+      this.tetris.disturbanceLinesCleared >= REQUIRED_LINES_TO_CLEAR
+    ) {
+      this.clearDisturbance();
+      this.tetris.disturbanceLinesCleared = 0;
     }
 
     if (!this.tetris.canFall()) {

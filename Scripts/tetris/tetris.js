@@ -7,6 +7,7 @@ class Tetris {
     this.gameBoard = new GameBoard();
     this.createObject(0);
     this.swapHold();
+    this.disturbanceLinesCleared = 0;
   }
 
   reset() {
@@ -116,6 +117,8 @@ class Tetris {
         this.gameBoard[i + 10].box.row += 1;
       }
     }
+
+    this.disturbanceLinesCleared += 1;
   }
 
   dropPiece() {
