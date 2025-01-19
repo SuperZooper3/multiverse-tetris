@@ -214,7 +214,7 @@ class TetrisCanvas extends StandardTetrisCanvas {
     this.drawHold(game[2]);
     this.drawNext(game[3]);
     this.drawLabels();
-    this.drawScore(tetrisController.multiverseController.tilesCleared);
+    this.drawScore(tetrisController.multiverseController.points);
     return true;
   }
 

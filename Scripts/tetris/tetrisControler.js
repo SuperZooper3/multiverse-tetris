@@ -1,6 +1,8 @@
 const REQUIRED_STEPS_TO_CLEAR = 10;
 const DISTURBANCE_MIN_TIME = 300;
 const DISTURBANCE_MAX_TIME = 1000;
+const SOFT_DROP_POINTS = 1;
+const HARD_DROP_POINTS = 10;
 
 function chooseDisturbanceCountdown() {
   return Math.floor(
@@ -17,7 +19,6 @@ class TetrisController {
     this.gameRunning = false;
     this.aiRunning = false;
     this.gameInterval = null;
-    multiverseController.tilesCleared = 0;
     this.isActive = null;
     this.tetrisCanvas = null;
     this.tetris = null;
@@ -71,6 +72,9 @@ class TetrisController {
       case 4:
       case 83: // s
       case 40: // down
+        if (!this.aiRunning) {
+            this.multiverseController.points += SOFT_DROP_POINTS;
+        }
         this.tetris.moveDown();
         break;
       case 5:
@@ -118,7 +122,6 @@ class TetrisController {
   startGame() {
     if (!this.gameRunning) {
       this.setSelfActive();
-      //this.tilesCleared = 0;
       setTimeout(() => {
         //this.tetris.reset();
         this.moveTile();
@@ -143,7 +146,6 @@ class TetrisController {
       //this.tetris.reset();
       this.moveTile();
       this.aiRunning = true;
-      //this.tilesCleared = 0;
       this.ai(this.tetris.getGame());
     }
   }
@@ -156,7 +158,8 @@ class TetrisController {
   }
 
   runGame() {
-    this.moveTile(4);
+    this.tetris.moveDown();
+    this.draw();
     if (this.isDisturbed() && this.isActive) {
       if (this.disturbanceClearCounter >= REQUIRED_STEPS_TO_CLEAR) {
         this.clearDisturbance();
@@ -171,7 +174,6 @@ class TetrisController {
     }
 
     if (!this.tetris.checkCurrent()) {
-      this.multiverseController.tilesCleared++;
       if (this.tetris.createObject(0) === false) {
         console.log("Game over");
         this.gameRunning = false;
@@ -236,7 +238,6 @@ class TetrisController {
 
     setTimeout(() => {
       if (this.tetris.checkForRow()) {
-        this.multiverseController.tilesCleared++;
         this.tetris.createObject(0);
         if (!this.gameRunning) {
           this.ai(this.tetris.getGame());

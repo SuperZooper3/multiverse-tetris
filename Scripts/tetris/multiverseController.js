@@ -3,7 +3,7 @@ class MultiverseController {
     this.numberOfBoards = numberOfBoards;
     this.boards = [];
     this.activeBoard = null;
-    this.tilesCleared = 0;
+    this.points = 0;
     for (let i = 0; i < this.numberOfBoards; i++) {
       this.boards.push(this.createBoard());
     }
