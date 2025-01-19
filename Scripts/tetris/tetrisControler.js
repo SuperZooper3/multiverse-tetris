@@ -1,4 +1,4 @@
-const REQUIRED_STEPS_TO_CLEAR = 10;
+const REQUIRED_LINES_TO_CLEAR = 5;
 const DISTURBANCE_MIN_TIME = 300;
 const DISTURBANCE_MAX_TIME = 1000;
 const SOFT_DROP_POINTS = 1;
@@ -74,7 +74,7 @@ class TetrisController {
       case 83: // s
       case 40: // down
         if (!this.aiRunning) {
-            this.multiverseController.points += SOFT_DROP_POINTS;
+          this.multiverseController.points += SOFT_DROP_POINTS;
         }
         this.tetris.moveDown();
         break;
@@ -117,7 +117,7 @@ class TetrisController {
     this.bigCanvas = null;
     this.isActive = false;
     if (!this.isDisturbed()) {
-        this.startAI();
+      this.startAI();
     }
   }
 
@@ -175,7 +175,7 @@ class TetrisController {
       }
     }
 
-    if (!this.tetris.checkCurrent()) {
+    if (!this.tetris.canFall()) {
       if (this.tetris.createObject(0) === false) {
         showGameOver(this.multiverseController.points);
         this.gameRunning = false;
@@ -187,32 +187,32 @@ class TetrisController {
   }
 
   ai(game) {
-    if(this.aiRunning) {
-    if (game[1] !== undefined) {
-      let copyBoard = JSON.parse(JSON.stringify(game[0]));
-      let copyCurrentObject = JSON.parse(JSON.stringify(game[1]));
-      let copyHoldObject = JSON.parse(JSON.stringify(game[2]));
+    if (this.aiRunning) {
+      if (game[1] !== undefined) {
+        let copyBoard = JSON.parse(JSON.stringify(game[0]));
+        let copyCurrentObject = JSON.parse(JSON.stringify(game[1]));
+        let copyHoldObject = JSON.parse(JSON.stringify(game[2]));
 
-      for (let i = 0; i < copyCurrentObject.length; i++) {
-        copyBoard[
-          copyCurrentObject[i].column + copyCurrentObject[i].row * 10
-        ].box = undefined;
-      }
-
-      let tetrus = new aiTetrus(copyBoard, copyCurrentObject, copyHoldObject);
-      let result = tetrus.placeOneObject();
-      if (result === false) {
-        showGameOver(this.multiverseController.points);
-      } else if (result[1].length > 0) {
-        if (result[4]) {
-          this.tetris.swapHold();
+        for (let i = 0; i < copyCurrentObject.length; i++) {
+          copyBoard[
+            copyCurrentObject[i].column + copyCurrentObject[i].row * 10
+          ].box = undefined;
         }
-        this.takeMoves(result[1]);
-      } else {
-        showGameOver(this.multiverseController.points);
+
+        let tetrus = new aiTetrus(copyBoard, copyCurrentObject, copyHoldObject);
+        let result = tetrus.placeOneObject();
+        if (result === false) {
+          showGameOver(this.multiverseController.points);
+        } else if (result[1].length > 0) {
+          if (result[4]) {
+            this.tetris.swapHold();
+          }
+          this.takeMoves(result[1]);
+        } else {
+          showGameOver(this.multiverseController.points);
+        }
       }
     }
-  }
   }
 
   takeMoves(moves) {
@@ -239,7 +239,7 @@ class TetrisController {
     }
 
     setTimeout(() => {
-      if (this.tetris.checkForRow()) {
+      if (this.tetris.checkAndClearFullRows()) {
         this.tetris.createObject(0);
         if (!this.gameRunning) {
           this.ai(this.tetris.getGame());
@@ -253,9 +253,7 @@ class TetrisController {
       if (this.disturbanceCountdown > 0) {
         this.disturbanceCountdown--;
       } else {
-        const disturbances = [
-          this.disturbanceSpeed,
-        ];
+        const disturbances = [this.disturbanceSpeed];
         // pick a random disturbance from the array
         const disturbance =
           disturbances[Math.floor(Math.random() * disturbances.length)];

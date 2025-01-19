@@ -53,8 +53,8 @@ class MultiverseController {
 
   removeActive() {
     if (this.activeBoard !== null) {
-        this.boards[this.activeBoard].deactivate();
-        this.activeBoard = null;
+      this.boards[this.activeBoard].deactivate();
+      this.activeBoard = null;
     }
   }
 
@@ -64,7 +64,6 @@ class MultiverseController {
     this.numberOfBoards++;
     newBoard.startAI();
   }
-
 }
 
 const multiverseController = new MultiverseController(1);

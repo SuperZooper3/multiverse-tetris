@@ -8,6 +8,7 @@ class Tetris {
     this.gameBoard = new GameBoard();
     this.createObject(0);
     this.swapHold();
+    this.disturbanceLinesCleared = 0;
   }
 
   reset() {
@@ -102,8 +103,8 @@ class Tetris {
         }
       }
     }
-    this.checkForRow();
-    this.checkCurrent();
+    this.checkAndClearFullRows();
+    this.canFall();
   }
 
   moveAllDown(row) {
@@ -117,6 +118,8 @@ class Tetris {
         this.gameBoard[i + 10].box.row += 1;
       }
     }
+
+    this.disturbanceLinesCleared += 1;
   }
 
   dropPiece() {
@@ -148,59 +151,70 @@ class Tetris {
     return Math.min.apply(Math, rowsDown);
   }
 
-  checkForRow() {
-    let countToTen = 0;
-    let counter = 0;
-    let rowsDeleted = [];
+  checkAndClearFullRows() {
+    let cellsProcessed = 0;
+    let filledCellCount = 0;
+    let rowsToDelete = [];
+
+    // check every single tile in the board
     for (let i = 199; i >= 0; i--) {
+      // check if the current tile is part of the current piece
       for (let j = this.currentObject.length - 1; j >= 0; j--) {
         if (this.gameBoard[i].box == this.currentObject[j]) {
-          if (this.checkCurrent()) {
-            counter--;
-          }
+          if (this.canFall()) filledCellCount--;
         }
       }
-      if (this.gameBoard[i].box != undefined) {
-        counter++;
-      }
-      if (counter == 10) {
-        rowsDeleted[rowsDeleted.length] = i / 10;
-        counter = 0;
+
+      // check if the current tile is filled
+      if (this.gameBoard[i].box != undefined) filledCellCount++;
+
+      // if the row is full, mark it for deletion
+      if (filledCellCount == 10) {
+        rowsToDelete[rowsToDelete.length] = i / 10;
+        filledCellCount = 0;
+
         for (let j = 0; j < 10; j++) {
           this.gameBoard[i + j].box = undefined;
         }
       }
-      countToTen++;
 
-      if (countToTen > 9) {
-        countToTen = 0;
-        counter = 0;
+      cellsProcessed++;
+
+      if (cellsProcessed > 9) {
+        cellsProcessed = 0;
+        filledCellCount = 0;
       }
     }
-    for (let i = rowsDeleted.length; i > 0; i--) {
-      this.moveAllDown(rowsDeleted[i - 1]);
+
+    for (let i = rowsToDelete.length; i > 0; i--) {
+      this.moveAllDown(rowsToDelete[i - 1]);
     }
     // calcutate the score that should be given for the number of cleared rows in real tetris
     let score = 0;
-    if (rowsDeleted.length == 1) {
+    if (rowsToDelete.length == 1) {
       score = 40;
-    } else if (rowsDeleted.length == 2) {
+    } else if (rowsToDelete.length == 2) {
       score = 100;
-    } else if (rowsDeleted.length == 3) {
+    } else if (rowsToDelete.length == 3) {
       score = 300;
-    } else if (rowsDeleted.length == 4) {
+    } else if (rowsToDelete.length == 4) {
       score = 1200;
     }
     this.multiverseController.points += score;
+
     return true;
   }
 
-  //check to see if the current peice being moves can fall farther
-  checkCurrent() {
+  // check if the current piece can fall farther
+  canFall() {
     for (let i = 0; i < this.currentObject.length; i++) {
       let row = this.currentObject[i].row;
       let column = this.currentObject[i].column;
+
+      // if piece is at the bottom of the board
       if (row >= 19) return false;
+
+      // if there's a piece below the current one
       if (
         this.gameBoard[(row + 1) * 10 + column].box != undefined &&
         !this.currentObject.includes(
@@ -209,6 +223,7 @@ class Tetris {
       )
         return false;
     }
+
     return true;
   }
 
