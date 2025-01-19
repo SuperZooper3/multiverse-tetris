@@ -1,6 +1,4 @@
-// creating the canvas
-
-class aiTetrus {
+class aiTetris {
   constructor(b, c, h) {
     this.board = b;
     this.c = c;

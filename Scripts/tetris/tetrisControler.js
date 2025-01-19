@@ -152,8 +152,8 @@ class TetrisController {
   }
 
   runGame() {
-    // moves tetris piece down
-    this.moveTile(4);
+    this.tetris.moveDown();
+    this.draw();
 
     // clear disturbance if enough lines have been cleared
     if (
@@ -165,7 +165,6 @@ class TetrisController {
     }
 
     if (!this.tetris.canFall()) {
-      this.multiverseController.tilesCleared++;
       if (this.tetris.createObject(0) === false) {
         showGameOver(this.multiverseController.points);
         this.gameRunning = false;
@@ -189,8 +188,8 @@ class TetrisController {
           ].box = undefined;
         }
 
-        let tetrus = new aiTetrus(copyBoard, copyCurrentObject, copyHoldObject);
-        let result = tetrus.placeOneObject();
+        let tetris = new aiTetris(copyBoard, copyCurrentObject, copyHoldObject);
+        let result = tetris.placeOneObject();
         if (result === false) {
           showGameOver(this.multiverseController.points);
         } else if (result[1].length > 0) {
