@@ -234,7 +234,7 @@ class TetrisController {
     }
 
     setTimeout(() => {
-      if (this.tetris.checkForRow()) {
+      if (this.tetris.checkAndClearFullRows()) {
         this.multiverseController.tilesCleared++;
         this.tetris.createObject(0);
         if (!this.gameRunning) {

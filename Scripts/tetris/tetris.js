@@ -101,7 +101,7 @@ class Tetris {
         }
       }
     }
-    this.checkForRow();
+    this.checkAndClearFullRows();
     this.canFall();
   }
 
@@ -147,36 +147,45 @@ class Tetris {
     return Math.min.apply(Math, rowsDown);
   }
 
-  checkForRow() {
-    let countToTen = 0;
-    let counter = 0;
-    let rowsDeleted = [];
+  checkAndClearFullRows() {
+    let cellsProcessed = 0;
+    let filledCellCount = 0;
+    let rowsToDelete = [];
+
+    // check every single tile in the board
     for (let i = 199; i >= 0; i--) {
+      // check if the current tile is part of the current piece
       for (let j = this.currentObject.length - 1; j >= 0; j--) {
         if (this.gameBoard[i].box == this.currentObject[j]) {
-          if (this.canFall()) counter--;
+          if (this.canFall()) filledCellCount--;
         }
       }
-      if (this.gameBoard[i].box != undefined) {
-        counter++;
-      }
-      if (counter == 10) {
-        rowsDeleted[rowsDeleted.length] = i / 10;
-        counter = 0;
+
+      // check if the current tile is filled
+      if (this.gameBoard[i].box != undefined) filledCellCount++;
+
+      // if the row is full, mark it for deletion
+      if (filledCellCount == 10) {
+        rowsToDelete[rowsToDelete.length] = i / 10;
+        filledCellCount = 0;
+
         for (let j = 0; j < 10; j++) {
           this.gameBoard[i + j].box = undefined;
         }
       }
-      countToTen++;
 
-      if (countToTen > 9) {
-        countToTen = 0;
-        counter = 0;
+      cellsProcessed++;
+
+      if (cellsProcessed > 9) {
+        cellsProcessed = 0;
+        filledCellCount = 0;
       }
     }
-    for (let i = rowsDeleted.length; i > 0; i--) {
-      this.moveAllDown(rowsDeleted[i - 1]);
+
+    for (let i = rowsToDelete.length; i > 0; i--) {
+      this.moveAllDown(rowsToDelete[i - 1]);
     }
+
     return true;
   }
 
