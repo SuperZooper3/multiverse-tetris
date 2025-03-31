@@ -1,6 +1,6 @@
 # Multiverse Tetris
 
-Our uOttaHack 7 project!
+Our uOttaHack 7 project !
 
 ## 👾 The Game
 
